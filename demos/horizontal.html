@@ -3,16 +3,17 @@
 <!--[if IE 8]>         <html class="o-useragent-ie8 o-hoverable-on"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="o-hoverable-on"> <!--<![endif]-->
 <head>
-    <meta charset="utf-8" />
-    <title>o-share: horizontal demo</title>
-    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    <script src="//polyfill.webservices.ft.com/v1/polyfill.min.js"></script>
-    <style>body { margin: 0; }.demo-js .o--if-nojs { display: none; }</style>
-    <link rel="stylesheet" href="/bundles/css?modules=o-share:/demos/src/demo.scss" />
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<title>o-share: horizontal demo</title>
+	<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+	<script src="//polyfill.webservices.ft.com/v1/polyfill.min.js?features=modernizr:queryselector,modernizr:getComputedStyle,modernizr:canvas,modernizr:customevent,default"></script>
+	<style>body { margin: 0; } .demo-js .o--if-nojs { display: none; }</style>
+	<script>(function(d) { d.className = d.className + ' demo-js'; })(document.documentElement);</script>
+	<link rel="stylesheet" href="/bundles/css?modules=o-share:/demos/src/demo.scss" />
 </head>
 <body class="">
-    <script>(function(d) {var b = d.getElementsByTagName('body')[0];b.className = b.className + ' demo-js';})(document);</script>
-    <div data-o-component="o-share" class="o-share">
+<div data-o-component="o-share" class="o-share">
     <ul>
         <li class="o-share__action o-share__action--twitter">
             <a href="https://twitter.com/intent/tweet?url=http:&#x2F;&#x2F;on.ft.com&#x2F;1mUdgA2&amp;text=Pfizer+says+its+AstraZeneca+vow+over+big+UK+presence+is+binding&amp;related=ftcompanies&amp;via=FT"><i>Twitter</i></a>
@@ -38,7 +39,7 @@
     </ul>
 </div>
 
-    <script src="/bundles/js?modules=o-share:/demos/src/demo.js"></script>
-    <script src="//registry.origami.ft.com/embedapi?autoload=resize"></script>
+<script src="/bundles/js?modules=o-share:/demos/src/demo.js"></script>
+<script src="//registry.origami.ft.com/embedapi?autoload=resize"></script>
 </body>
 </html>
