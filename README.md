@@ -6,6 +6,7 @@ Social media and URL sharing buttons.
 - Provides the ability to share a URL provided by the product
 - Uses a standard set of social media icons.
 - Provides a copyable representation of a link
+- Integrates with the gift URL service to provide gifting options
 
 ## Browser Support
 
@@ -24,43 +25,30 @@ Known issues:
 
 ## Getting started
 
-The simplest markup you might need looks like this:
+A simple example of the markup is shown in the `standard.mustache` demo file in `/demos/src`.
 
-```html
-<div data-o-component="o-share"
-    class="o-share"
-    data-o-share-links="{{links}}"
-    data-o-share-url="{{url}}"
-    data-o-share-title="{{title}}"
-    data-o-share-titleExtra="{{titleExtra}}"
-    data-o-share-summary="{{summary}}"
-    data-o-share-relatedTwitterAccounts="{{relatedTwitterAccounts}}">
-</div>
-```
+The options are:
 
-The different options are:
-
-* `links`: List of lower case social networks to be added separated by a space.
 * `url`: The URL to be shared.
 * `title`: The title of the content to be shared
 * `titleExtra`: Any additional text relating to the title, e.g. site _section_.
 * `summary`: Summary text to be shared.
 * `relatedTwitterAccounts`: Comma-separated list of Twitter accounts to encourage the user to follow. See [Twitter intents](https://dev.twitter.com/docs/intents) for more info.
 
-The different social networks are (in the order suggested by the design team):
+The social networks are (in the order suggested by the design team):
 
 * Twitter
 * Facebook
 * Linkedin
 * Whatsapp (note: this link does nothing if Whatsapp is not installed)
 
-The following icons are available, but are considered superfluous for most FT products.
+The following networks are available, but are considered superfluous for most FT products.
 * Google+ (written as 'googleplus' in the `links` config option)
 * Reddit
 * Pinterest
-* Url
+* URL (for copy/paste)
+* Mail (for email)
 
-You can take a look at an example [here](https://github.com/Financial-Times/o-share/blob/master/demos/src/webcomponent.mustache).
 
 ### Instantiation
 
@@ -71,8 +59,6 @@ To instantiate the JavaScript:
 var oShare = require('o-share');
 var oShareInstance = new oShare(document.querySelector('[data-o-component=o-share]'));
 ```
-
-The markup will be generated for that instance of `o-share`.
 
 You can also instantiate all instances in your page by running `oShare.init` which returns an array with all of them.
 
@@ -107,8 +93,6 @@ Check out the [API docs](http://registry.origami.ft.com/components/o-share#docs-
 To support core experience, you need to include the [complete markup](https://github.com/Financial-Times/o-share/blob/master/main.mustache) directly.
 
 Social media share buttons will function as plain `<a>` elements (and can be set to `target="_blank"` if the product wishes.
-
-URL share button will not display at all. User can of course still copy the browser URL.
 
 ## Custom element
 

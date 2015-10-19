@@ -85,7 +85,7 @@
 		padding: 10px;
 		margin-top: 5px;
 		box-sizing: border-box;
-		form {
+		> form {
 			margin-top: 5px;
 			@include oFormsRadioCheckbox((radio:".o-share__giftoption", checkbox:".o-share__chkbox", label: ".o-share__giftlabel"));
 		}
@@ -94,6 +94,9 @@
 		}
 		> *:first-child {
 			margin-top: 0;
+		}
+		.#{$classname}__giftlabel--cfg {
+			margin-right: 3px;
 		}
 	}
 	.#{$classname}__customgift {

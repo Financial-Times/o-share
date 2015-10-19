@@ -30,6 +30,7 @@ function Share(rootEl, config) {
 	const oShare = this;
 	const openWindows = {};
 	const shareUrlPromises = {};
+	let bodyDelegate;
 
 	/**
 	  * Helper function to dispatch oShare namespaced events
@@ -43,65 +44,79 @@ function Share(rootEl, config) {
 		}));
 	}
 
-	/**
-	  * Click event handler that checks the event target is an o-share action, and acts depending on if it's a social network or a link
-	  *
-	  * @private
-	  */
-	function handleClick(ev) {
-		const actionEl = ev.target.closest('li.o-share__action');
 
-		if (ev.target.matches('.o-share__btncopy')) {
-			var urlEl = rootEl.querySelector('.o-share__urlbox');
-			ev.preventDefault();
+	function handleCopy() {
+		var urlEl = rootEl.querySelector('.o-share__urlbox');
 
-			new Tooltip("Copy this link for sharing", urlEl);
-			urlEl.setSelectionRange(0, urlEl.value.length);
+		var tip = new Tooltip("Copy this link for sharing", urlEl);
+		urlEl.setSelectionRange(0, urlEl.value.length);
 
-			/*	onCopy: function() {
-					dispatchCustomEvent('copy', {
-						share: oShare,
-						action: "url",
-						url: url
-					});
-				},
-			*/
-			dispatchCustomEvent('open', {
-				share: oShare,
-				action: "url",
-				url: url
-			});
-		} else if (rootEl.contains(actionEl) && actionEl.querySelector('a[href]')) {
-			ev.preventDefault();
-			shareSocial(actionEl.querySelector('a[href]').href);
-		} else if (ev.target.matches('.o-share__btnemail')) {
-			ev.preventDefault();
-			generateSocialUrl('email').then(function(destUrl) {
-				location.href = destUrl;
-			})
+		function handleCloseToolip(ev) {
+			if ((ev.keyCode && ev.keyCode === 27) || !rootEl.querySelector('.o-share__link').contains(ev.target)) {
+				tip.destroy();
+				bodyDelegate.off();
+			}
 		}
+
+		dispatchCustomEvent('open', {
+			share: oShare,
+			action: "url",
+			url: urlEl.value
+		});
+		bodyDelegate.on('click', handleCloseToolip);
+		bodyDelegate.on('keypress', handleCloseToolip);
+
+		// TODO: Detect copy action and fire this event
+		/*	onCopy: function() {
+				dispatchCustomEvent('copy', {
+					share: oShare,
+					action: "url",
+					url: url
+				});
+			},
+		*/
 	}
 
-	/**
-	  * Event handler for social network actions. Opens up a new window for that social network and dispatched the 'oShare.open' event
-	  *
-	  * @private
-	  * @param {string} url - URL to be loaded in the new window
-	  */
-	function shareSocial(url) {
-		if (url) {
-			if (openWindows[url] && !openWindows[url].closed) {
-				openWindows[url].focus();
+	function handleSocial(ev) {
+		const actionEl = ev.target.closest('.o-share__action');
+		const urlEl = actionEl.querySelector('a[href]');
+		if (urlEl) {
+			ev.preventDefault();
+
+			if (openWindows[urlEl.href] && !openWindows[urlEl.href].closed) {
+				openWindows[urlEl.href].focus();
 			} else {
-				openWindows[url] = window.open(url, '', 'width=646,height=436');
+				openWindows[urlEl.href] = window.open(urlEl.href, '', 'width=646,height=436');
 			}
 
 			dispatchCustomEvent('open', {
 				share: oShare,
 				action: "social",
-				url: url
+				url: urlEl.href
 			});
+			ev.target.blur();
 		}
+	}
+
+	function handleEmail() {
+		generateSocialUrl('email').then(function(destUrl) {
+			window.open(destUrl, 'mailto');
+		})
+	}
+
+	function handleGiftOptionChange(ev) {
+		var cfgEl = rootEl.querySelector('.o-share__customgift');
+		if (ev.target.value === 'cfg' && ev.target.checked) {
+			if (!cfgEl.value || isNaN(cfgEl.value)) {
+				cfgEl.value = 5;
+			}
+			cfgEl.disabled = false;
+			cfgEl.focus();
+		}
+		if (ev.target.matches('.o-share__giftoption') && ev.target.value !== 'cfg' && ev.target.checked) {
+			cfgEl.disabled = true;
+		}
+		render();
 	}
 
 	/**
@@ -115,17 +130,16 @@ function Share(rootEl, config) {
 			maxShares = rootEl.querySelector('input.o-share__customgift').value
 		}
 		if (shareUrlPromises[maxShares]) return shareUrlPromises[maxShares];
-		shareUrlPromises[maxShares] = /*fetch('https://ftlabs-urlsharing-sharecode.herokuapp.com/generate', {
-			method:'post',
-			headers: {'Content-Type': 'application/json'},
-			body: JSON.stringify({
-				target: location.href,
-				shareEventId: (new Date()).getTime(),
-				maxShares: maxShares
-			})
-		})
+
+		// TODO: hook up Jake's API
+shareUrlPromises[maxShares] = Promise.resolve('http://on.ft.com/'+maxShares+'-blah');
+		/*shareUrlPromises[maxShares] = fetch(
+			'https://ftlabs-urlsharing-sharecode.herokuapp.com/generate'+
+			'?target=' + encodeURIComponent(location.href) +
+			'&shareEventId=' + Date.now() +
+			'&maxShares=' + maxShares
+		)
 		.then(function(responseStream) { responseStream.json(); });*/
-Promise.resolve('http://on.ft.com/'+maxShares+'-blah');
 		return shareUrlPromises[maxShares];
 	}
 
@@ -154,20 +168,30 @@ Promise.resolve('http://on.ft.com/'+maxShares+'-blah');
 	  * @private
 	  */
 	function render() {
-		let socialLinkEl;
-		Promise.all(config.links.map(function(network) {
-			socialLinkEl = rootEl.querySelector('.o-share__action--'+network);
+		const giftoption = rootEl.querySelector('input.o-share__giftoption:checked').value;
+		const descEl = rootEl.querySelector('.o-share__giftdesc--'+giftoption);
+		Promise.all(Object.keys(socialUrls).map(function(network) {
+			var socialLinkEl = rootEl.querySelector('.o-share__action--'+network);
 			if (socialLinkEl) {
 				return generateSocialUrl(network).then(function(destUrl) {
-					socialLinkEl.href = destUrl;
+					socialLinkEl.querySelector('a').href = destUrl;
 				});
 			} else {
-				return true;
+				return Promise.resolve(1);
 			}
 		}));
 		generateSocialUrl('url').then(function(destUrl) {
 			rootEl.querySelector('.o-share__urlbox').value = destUrl;
 		});
+		[].slice.call(rootEl.querySelectorAll('.o-share__giftdesc')).forEach(function(el) {
+			el.style.display = 'none';
+		});
+		if (descEl) {
+			descEl.style.display = 'block';
+			rootEl.querySelector('.o-share__creditmsg').style.display = 'block';
+		} else {
+			rootEl.querySelector('.o-share__creditmsg').style.display = 'none';
+		}
 	}
 
 	/**
@@ -183,7 +207,14 @@ Promise.resolve('http://on.ft.com/'+maxShares+'-blah');
 		}
 
 		const rootDelegate = new DomDelegate(rootEl);
-		rootDelegate.on('click', handleClick);
+		rootDelegate.on('click', '.o-share__btncopy', handleCopy);
+		rootDelegate.on('click', '.o-share__action', handleSocial);
+		rootDelegate.on('click', '.o-share__btnemail', handleEmail);
+		rootDelegate.on('change', '.o-share__giftoption', handleGiftOptionChange);
+		rootDelegate.on('change', '.o-share__customgift', handleGiftOptionChange);
+
+		bodyDelegate = new DomDelegate(document.body);
+
 		rootEl.setAttribute('data-o-share--js', '');
 
 		oShare.rootDomDelegate = rootDelegate;
