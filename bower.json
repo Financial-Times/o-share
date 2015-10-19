@@ -2,7 +2,9 @@
     "name": "o-share",
     "dependencies": {
         "ftdomdelegate": "^2.0.0",
-        "o-colors": ">=2.5.0 <4"
+        "o-colors": ">=2.5.0 <4",
+        "o-forms": "^2.0.0",
+        "o-buttons": "^3.0.3"
     },
     "main": [
         "main.scss",

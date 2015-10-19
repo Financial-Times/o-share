@@ -18,7 +18,7 @@ function Tooltip(text, refEl) {
 	function createTooltip(cssClass) {
 		const tipEl = document.createElement('div');
 		tipEl.className = cssClass;
-		tipEl.innerHTML = '<div class="' + cssClass + '__text">' + text + '</div><div class="' + cssClass + '__arrow"></div>';
+		tipEl.innerHTML = '<div class="' + cssClass + '__arrow"></div><div class="' + cssClass + '__text">' + text + '</div>';
 		return tipEl;
 	}
 
@@ -29,10 +29,23 @@ function Tooltip(text, refEl) {
 	 * @param {HTMLElement} tipEl - a tooltip element returned by {@link createTooltip}
 	 */
 	function renderTooltip(tipEl) {
-		refEl.insertBefore(tipEl, refEl.childNodes[0]);
+		var os = offset(refEl);
+		document.body.appendChild(tipEl);
 		tipEl.style.width = tipEl.clientWidth + "px"; // Set width based on initial text
-		tipEl.style.left = (refEl.offsetWidth - tipEl.offsetWidth) / 2 + "px";
+		tipEl.style.top = (os.y + refEl.offsetHeight) + 'px';
+		tipEl.style.left = (os.x - (tipEl.offsetWidth / 2) + (refEl.offsetWidth / 2)) + "px";
 		tipEl.style.opacity = 1;
+	}
+
+	// Return the offset of the element from the top left of the document
+	function offset(el) {
+		var os = {x:0, y:0}, treeEl = el;
+		while (treeEl) {
+			os.y += treeEl.offsetTop;
+			os.x += treeEl.offsetLeft;
+			treeEl = treeEl.offsetParent;
+		}
+		return os;
 	}
 
 	this.tooltipEl = createTooltip(this.cssClass);

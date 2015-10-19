@@ -2,22 +2,13 @@
     "options": {
         "sass": "demos/src/demo.scss",
         "js": "demos/src/demo.js",
-        "dependencies": ["o-fonts@^1.5.0"]
+        "dependencies": ["o-overlay@^1.6.2"]
     },
     "demos": [
         {
-            "name": "horizontal",
-            "template": "main.mustache",
+            "name": "standard",
+            "template": "demos/src/standard.mustache",
             "data": "demos/src/data.json"
-        },
-        {
-            "name": "vertical",
-            "template": "main.mustache",
-            "data": "demos/src/data-vertical.json"
-        },
-        {
-            "name": "web-component",
-            "template": "demos/src/webcomponent.mustache"
         }
     ]
 }

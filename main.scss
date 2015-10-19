@@ -1,4 +1,6 @@
 @import 'o-colors/main';
+@import 'o-buttons/main';
+@import 'o-forms/main';
 
 @import 'src/scss/color-use-cases';
 @import 'src/scss/variables';
@@ -17,7 +19,4 @@
 	@include oShareActionIcon(reddit);
 	@include oShareActionIcon(pinterest);
 	@include oShareTooltip();
-	.o-share--vertical {
-		@include oShareVertical();
-	}
 }

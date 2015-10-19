@@ -1,7 +1,7 @@
 /**global require,module*/
 
 const DomDelegate = require('ftdomdelegate');
-const TextCopyHelper = require('./TextCopyHelper');
+const Tooltip = require('./Tooltip');
 
 const socialUrls = {
 	twitter: "https://twitter.com/intent/tweet?url={{url}}&amp;text={{title}}&amp;related={{relatedTwitterAccounts}}&amp;via=FT",
@@ -10,13 +10,14 @@ const socialUrls = {
 	googleplus: "https://plus.google.com/share?url={{url}}",
 	reddit: "http://reddit.com/submit?url={{url}}&amp;title={{title}}",
 	pinterest: "http://www.pinterest.com/pin/create/button/?url={{url}}&amp;description={{title}}",
-	url: "{{url}}"
+	url: "{{url}}",
+	email: "mailto:?subject=See this article on FT.com&body={{title}}%0A{{url}}"
 };
 
 /**
   * @class Share
   *
-  * @param {(HTMLElement|string)} [el=document.body] - Element where to search for an o-share component. You can pass an HTMLElement or a selector string
+  * @param {(HTMLElement|string)} [rootEl=document.body] - Element where to search for an o-share component. You can pass an HTMLElement or a selector string
   * @param {Object} config - Optional
   * @param {string} config.url - Optional, url to share
   * @param {string} config.title - Optional, title to be used in social network sharing
@@ -28,6 +29,7 @@ const socialUrls = {
 function Share(rootEl, config) {
 	const oShare = this;
 	const openWindows = {};
+	const shareUrlPromises = {};
 
 	/**
 	  * Helper function to dispatch oShare namespaced events
@@ -49,15 +51,17 @@ function Share(rootEl, config) {
 	function handleClick(ev) {
 		const actionEl = ev.target.closest('li.o-share__action');
 
-		if (oShare.rootEl.contains(actionEl) && actionEl.querySelector('a[href]')) {
+		if (ev.target.matches('.o-share__btncopy')) {
 			ev.preventDefault();
-			const url = actionEl.querySelector('a[href]').href;
-
-			if (actionEl.classList.contains('o-share__action--url')) {
-				copyLink(url, actionEl);
-			} else {
-				shareSocial(url);
-			}
+			copyLink(rootEl.querySelector('.o-share__urlbox').value, ev.target);
+		} else if (rootEl.contains(actionEl) && actionEl.querySelector('a[href]')) {
+			ev.preventDefault();
+			shareSocial(actionEl.querySelector('a[href]').href);
+		} else if (ev.target.matches('.o-share__btnemail')) {
+			ev.preventDefault();
+			generateSocialUrl('mail').then(function(destUrl) {
+				location.href = destUrl;
+			})
 		}
 	}
 
@@ -69,26 +73,17 @@ function Share(rootEl, config) {
 	  * @param {HTMLElement} parentEl - List element that will contain the {@link TextCopyHelper}
 	  */
 	function copyLink(url, parentEl) {
-		if (!url || !parentEl || parentEl.hasAttribute("aria-selected")) {
-			return;
-		}
-		parentEl.setAttribute('aria-selected', 'true');
 
-		new TextCopyHelper({
-			message: "Copy this link for sharing",
-			text: url,
-			parentEl: parentEl,
-			onCopy: function() {
+		new Tooltip("Copy this link for sharing", parentEl);
+
+		/*	onCopy: function() {
 				dispatchCustomEvent('copy', {
 					share: oShare,
 					action: "url",
 					url: url
 				});
 			},
-			onDestroy: function() {
-				parentEl.removeAttribute('aria-selected');
-			}
-		});
+		*/
 
 		dispatchCustomEvent('open', {
 			share: oShare,
@@ -120,38 +115,69 @@ function Share(rootEl, config) {
 	}
 
 	/**
+	  * Fetches the share destination for share actions made from this page (fetch one per )
+	  *
+	  * @private
+	  */
+	function getShareUrl() {
+		let maxShares = rootEl.querySelector('input.o-share__giftoption:checked').value;
+		if (maxShares === 'cfg') {
+			maxShares = rootEl.querySelector('input.o-share__customgift').value
+		}
+		if (shareUrlPromises[maxShares]) return shareUrlPromises[maxShares];
+		shareUrlPromises[maxShares] = /*fetch('https://ftlabs-urlsharing-sharecode.herokuapp.com/generate', {
+			method:'post',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({
+				target: location.href,
+				shareEventId: (new Date()).getTime(),
+				maxShares: maxShares
+			})
+		})
+		.then(function(responseStream) { responseStream.json(); });*/
+Promise.resolve('http://on.ft.com/'+maxShares+'-blah');
+		return shareUrlPromises[maxShares];
+	}
+
+	/**
 	  * Transforms the default social urls
 	  *
 	  * @private
 	  * @param {string} socialNetwork - Name of the social network that we support (twitter, facebook, linkedin, googleplus, reddit, pinterest, url)
 	  */
 	function generateSocialUrl(socialNetwork) {
-		let templateUrl = socialUrls[socialNetwork];
-		templateUrl = templateUrl.replace('{{url}}', config.url)
-			.replace('{{title}}', encodeURIComponent(config.title))
-			.replace('{{titleExtra}}', encodeURIComponent(config.titleExtra))
-			.replace('{{summary}}', encodeURIComponent(config.summary))
-			.replace('{{relatedTwitterAccounts}}', encodeURIComponent(config.relatedTwitterAccounts));
-		return templateUrl;
+		return getShareUrl()
+		.then(function(shareUrl) {
+			let templateString = socialUrls[socialNetwork];
+			return templateString.replace('{{url}}', shareUrl)
+				.replace('{{title}}', encodeURIComponent(config.title))
+				.replace('{{titleExtra}}', encodeURIComponent(config.titleExtra))
+				.replace('{{summary}}', encodeURIComponent(config.summary))
+				.replace('{{relatedTwitterAccounts}}', encodeURIComponent(config.relatedTwitterAccounts))
+			;
+		});
 	}
 
 	/**
-	  * Renders the list of social networks in {@link config.links}
+	  * Updates the list of share links with the latest share code
 	  *
 	  * @private
 	  */
 	function render() {
-		const ulElement = document.createElement('ul');
-		for (let i = 0; i < config.links.length; i++) {
-			const liElement = document.createElement('li');
-			liElement.classList.add('o-share__action', 'o-share__action--'+config.links[i]);
-			const aElement = document.createElement('a');
-			aElement.href = generateSocialUrl(config.links[i]);
-			aElement.appendChild(document.createElement('i'));
-			liElement.appendChild(aElement);
-			ulElement.appendChild(liElement);
-		}
-		oShare.rootEl.appendChild(ulElement);
+		let socialLinkEl;
+		Promise.all(config.links.map(function(network) {
+			socialLinkEl = rootEl.querySelector('.o-share__action--'+network);
+			if (socialLinkEl) {
+				return generateSocialUrl(network).then(function(destUrl) {
+					socialLinkEl.href = destUrl;
+				});
+			} else {
+				return true;
+			}
+		}));
+		generateSocialUrl('url').then(function(destUrl) {
+			rootEl.querySelector('.o-share__urlbox').value = destUrl;
+		});
 	}
 
 	/**
@@ -173,19 +199,16 @@ function Share(rootEl, config) {
 		oShare.rootDomDelegate = rootDelegate;
 		oShare.rootEl = rootEl;
 
-		if (rootEl.children.length === 0) {
-			if (!config) {
-				config = {};
-				config.links = rootEl.hasAttribute('data-o-share-links') ?
-					rootEl.getAttribute('data-o-share-links').split(' ') : [];
-				config.url = rootEl.getAttribute('data-o-share-url') || '';
-				config.title = rootEl.getAttribute('data-o-share-title') || '';
-				config.titleExtra = rootEl.getAttribute('data-o-share-titleExtra') || '';
-				config.summary = rootEl.getAttribute('data-o-share-summary') || '';
-				config.relatedTwitterAccounts = rootEl.getAttribute('data-o-share-relatedTwitterAccounts') || '';
-			}
-			render();
-		}
+		config = Object.assign({
+			links: rootEl.hasAttribute('data-o-share-links') ? rootEl.getAttribute('data-o-share-links').split(' ') : [],
+			url: rootEl.getAttribute('data-o-share-url') || '',
+			title: rootEl.getAttribute('data-o-share-title') || '',
+			titleExtra: rootEl.getAttribute('data-o-share-titleExtra') || '',
+			summary: rootEl.getAttribute('data-o-share-summary') || '',
+			relatedTwitterAccounts: rootEl.getAttribute('data-o-share-relatedTwitterAccounts') || ''
+		}, config || {});
+
+		render();
 
 		dispatchCustomEvent('ready', {
 			share: oShare
@@ -234,16 +257,5 @@ Share.init = function(el) {
 
 	return shareInstances;
 };
-
-const OSharePrototype = Object.create(HTMLElement.prototype);
-
-/**
-  * If it supports custom elements, it will return an instance of the <o-share> HTMLElement
-  *
-  * @returns {(HTMLElement|undefined)}
-  */
-Share.Element = document.registerElement ? document.registerElement('o-share', {
-	prototype: OSharePrototype
-}) : undefined;
 
 module.exports = Share;

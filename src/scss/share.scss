@@ -7,17 +7,37 @@
 /// @param {String} $classname [o-share] - base class name
 @mixin oShareBase($classname: o-share) {
 	.#{$classname} {
-		display: inline-block;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		max-width: 450px;
+		font-size: 13px;
 
 		ul {
 			margin: 0;
 			padding: 0;
+			overflow: hidden;
 		}
+
+		h3 {
+			margin: 0 0 4px 0;
+    		font-size: 13px;
+		}
+	}
+
+ 	.#{$classname}__social {
+		flex: 1 0 auto;
+	}
+	.#{$classname}__link {
+		flex: 1 0 auto;
+	}
+	.#{$classname}__giftoptions {
+		flex: 0 0 100%;
 	}
 
 	.#{$classname}__action {
 		float: left;
-		margin: 0 5px 0 0;
+		margin: 0;
 		list-style-type: none;
 		line-height: $o-share-icon-size;
 		cursor: pointer;
@@ -33,7 +53,7 @@
 
 		a {
 			text-decoration: none;
-			padding: 6px;
+			padding: 3px;
 			display: block;
 			overflow: hidden;
 
@@ -49,6 +69,44 @@
 			padding-left: 0;
 		}
 	}
+
+	.#{$classname}__urlbox {
+		@include oFormsCommonField();
+		@include oFormsCommonSmall();
+		width: 140px;
+		vertical-align: middle;
+	}
+	.#{$classname}__btncopy, .#{$classname}__btnemail {
+		@include oButtons();
+		@include oButtonsSize(small);
+	}
+	.#{$classname}__giftoptions {
+		@include oColorsFor(o-share-box box, background);
+		padding: 10px;
+		margin-top: 5px;
+		box-sizing: border-box;
+		form {
+			margin-top: 5px;
+			@include oFormsRadioCheckbox((radio:".o-share__giftoption", checkbox:".o-share__chkbox", label: ".o-share__giftlabel"));
+		}
+		p {
+			margin: 5px 0 0 0;
+		}
+		> *:first-child {
+			margin-top: 0;
+		}
+	}
+	.#{$classname}__customgift {
+		@include oFormsCommonField();
+		@include oFormsCommonSmall();
+		width: 40px;
+		vertical-align: middle;
+	}
+
+	.#{$classname}__giftdesc, .#{$classname}__creditmsg {
+		display: none;
+	}
+
 }
 
 /// Action link styles
@@ -101,16 +159,5 @@
 		// The weird value for rgba is to prevent Sass converting rgba(0,0,0,0) to 'transparent',
 		// which would cause the following line of css to be understood by ie7/8 and the svg to be downloaded
 		background: rgba(0, 0, 0, 0.0001) url(_oShareGetIconUrl($name)) center/100% no-repeat;
-	}
-}
-
-@mixin oShareVertical($classname: o-share) {
-	.#{$classname}__action {
-		float: none;
-		margin: 0 0 5px;
-		&:first-child a {
-			padding-left: 6px;
-			padding-top: 0;
-		}
 	}
 }
