@@ -52,44 +52,34 @@ function Share(rootEl, config) {
 		const actionEl = ev.target.closest('li.o-share__action');
 
 		if (ev.target.matches('.o-share__btncopy')) {
+			var urlEl = rootEl.querySelector('.o-share__urlbox');
 			ev.preventDefault();
-			copyLink(rootEl.querySelector('.o-share__urlbox').value, ev.target);
+
+			new Tooltip("Copy this link for sharing", urlEl);
+			urlEl.setSelectionRange(0, urlEl.value.length);
+
+			/*	onCopy: function() {
+					dispatchCustomEvent('copy', {
+						share: oShare,
+						action: "url",
+						url: url
+					});
+				},
+			*/
+			dispatchCustomEvent('open', {
+				share: oShare,
+				action: "url",
+				url: url
+			});
 		} else if (rootEl.contains(actionEl) && actionEl.querySelector('a[href]')) {
 			ev.preventDefault();
 			shareSocial(actionEl.querySelector('a[href]').href);
 		} else if (ev.target.matches('.o-share__btnemail')) {
 			ev.preventDefault();
-			generateSocialUrl('mail').then(function(destUrl) {
+			generateSocialUrl('email').then(function(destUrl) {
 				location.href = destUrl;
 			})
 		}
-	}
-
-	/**
-	  * Event handler for the link element. Sets up a {@link TextCopyHelper} and dispatches the 'oShare.open' event
-	  *
-	  * @private
-	  * @param {string} url - URL to be copied
-	  * @param {HTMLElement} parentEl - List element that will contain the {@link TextCopyHelper}
-	  */
-	function copyLink(url, parentEl) {
-
-		new Tooltip("Copy this link for sharing", parentEl);
-
-		/*	onCopy: function() {
-				dispatchCustomEvent('copy', {
-					share: oShare,
-					action: "url",
-					url: url
-				});
-			},
-		*/
-
-		dispatchCustomEvent('open', {
-			share: oShare,
-			action: "url",
-			url: url
-		});
 	}
 
 	/**
