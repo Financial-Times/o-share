@@ -30,6 +30,7 @@
 		const oShare = this;
 		const openWindows = {};
 		const shareUrlPromises = {};
+		const urlEl = rootEl.querySelector('.o-share__urlbox');
 		let bodyDelegate;
 
 		let tokenTimeout = undefined;
@@ -58,36 +59,40 @@
 
 		}
 
-		function handleCopy() {
-			var urlEl = rootEl.querySelector('.o-share__urlbox');
+		function tooltip(text) {
+			oShare.tip = oShare.tip || new Tooltip(text, urlEl);
+			oShare.tip.setText(text);
+		}
 
-			var tip = new Tooltip("Copy this link for sharing", urlEl);
-			urlEl.setSelectionRange(0, urlEl.value.length);
-
-			function handleCloseToolip(ev) {
-				if ((ev.keyCode && ev.keyCode === 27) || !rootEl.querySelector('.o-share__link').contains(ev.target)) {
-					tip.destroy();
-					bodyDelegate.off();
-				}
+		function handleCloseToolip(ev) {
+			if (!rootEl.querySelector('.o-share__link').contains(ev.target)) {
+				oShare.tip = oShare.tip.destroy();
+				document.body.removeEventListener('click', handleCloseToolip);
+				document.body.removeEventListener('keypress', handleCloseToolip);
 			}
+		}
 
-			dispatchCustomEvent('open', {
+		function handleCopied(ev) {
+			ev.stopImmediatePropagation();
+			tooltip("Link copied to clipboard");
+
+			document.body.addEventListener('click', handleCloseToolip);
+			document.body.addEventListener('keypress', handleCloseToolip);
+
+			return dispatchCustomEvent('copy', {
 				share: oShare,
 				action: "url",
-				url: urlEl.value
+				url: event.target.value
 			});
-			bodyDelegate.on('click', handleCloseToolip);
-			bodyDelegate.on('keypress', handleCloseToolip);
+		}
 
-			// TODO: Detect copy action and fire this event
-			/*	onCopy: function() {
-					dispatchCustomEvent('copy', {
-						share: oShare,
-						action: "url",
-						url: url
-					});
-				},
-			*/
+		function handleCopy() {
+
+			urlEl.select();
+			
+			if (!document.execCommand('copy')) {
+				tooltip("Copy link to clipboard");
+			}
 		}
 
 		function handleSocial(ev) {
@@ -171,7 +176,6 @@
 			;
 
 			return shareUrlPromises[maxShares];
-
 		}
 
 		/**
@@ -193,6 +197,14 @@
 					.replace('{{relatedTwitterAccounts}}', encodeURIComponent(config.relatedTwitterAccounts))
 				;
 			});
+		}
+
+		function handleEscape(evt) {
+			if (evt.keyCode == 27) {
+				if (oShare.tip) {
+					oShare.tip.destroy();
+				}
+			}
 		}
 
 		/**
@@ -242,13 +254,12 @@
 			console.log(rootEl);
 
 			const rootDelegate = new DomDelegate(rootEl);
+			rootDelegate.on('copy', '.o-share__urlbox', handleCopied);
 			rootDelegate.on('click', '.o-share__btncopy', handleCopy);
 			rootDelegate.on('click', '.o-share__action', handleSocial);
 			rootDelegate.on('click', '.o-share__btnemail', handleEmail);
 			rootDelegate.on('change', '.o-share__giftoption', handleGiftOptionChange);
 			rootDelegate.on('change', '.o-share__customgift', handleGiftOptionChange);
-
-			bodyDelegate = new DomDelegate(document.body);
 
 			rootEl.setAttribute('data-o-share--js', '');
 
@@ -303,6 +314,7 @@
 	  */
 	Share.prototype.destroy = function() {
 		this.rootDomDelegate.destroy();
+		this.tip = this.tip? this.tip.destroy() : undefined;
 		// Should destroy remove its children? Maybe setting .innerHTML to '' is faster
 		for (let i = 0; i < this.rootEl.children; i++) {
 			this.rootEl.removeChild(this.rootEl.children[i]);
@@ -310,6 +322,7 @@
 
 		this.rootEl.removeAttribute('data-o-share--js');
 		this.rootEl = undefined;
+		return undefined;
 	};
 
 	/**
