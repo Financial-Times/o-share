@@ -146,7 +146,7 @@
 
 			let maxShares = undefined;
 
-			if(shareValue !== undefined){
+			if (shareValue !== undefined) {
 
 				maxShares = shareValue;
 
@@ -159,9 +159,11 @@
 
 			}
 
-			if (shareUrlPromises[maxShares]) return shareUrlPromises[maxShares];
+			if (shareUrlPromises[maxShares]) {
+				return shareUrlPromises[maxShares];
+			}
 
-			var serviceURL = "http://sharecode.ft.com/generate";
+			const serviceURL = "http://sharecode.ft.com/generate";
 
 			shareUrlPromises[maxShares] = fetch(serviceURL +
 						"?target=" + encodeURIComponent(location.href.split("?")[0]) +
@@ -186,17 +188,16 @@
 		  */
 		function generateSocialUrl(socialNetwork) {
 			return getShareUrl()
-
-			.then(function(shareResponse) {
-				console.log(shareResponse);
-				let templateString = socialUrls[socialNetwork];
-				return templateString.replace('{{url}}', shareResponse.shareURL)
-					.replace('{{title}}', encodeURIComponent(config.title))
-					.replace('{{titleExtra}}', encodeURIComponent(config.titleExtra))
-					.replace('{{summary}}', encodeURIComponent(config.summary))
-					.replace('{{relatedTwitterAccounts}}', encodeURIComponent(config.relatedTwitterAccounts))
-				;
-			});
+				.then(function(data) {
+					if (data.success) {
+						let templateString = socialUrls[socialNetwork];
+						return templateString.replace('{{url}}', shareResponse.shareURL)
+							.replace('{{title}}', encodeURIComponent(config.title))
+							.replace('{{titleExtra}}', encodeURIComponent(config.titleExtra))
+							.replace('{{summary}}', encodeURIComponent(config.summary))
+							.replace('{{relatedTwitterAccounts}}', encodeURIComponent(config.relatedTwitterAccounts));
+					}
+				});
 		}
 
 		function handleEscape(evt) {
@@ -215,6 +216,7 @@
 		function render() {
 			const giftoption = rootEl.querySelector('input.o-share__giftoption:checked').value;
 			const descEl = rootEl.querySelector('.o-share__giftdesc--'+giftoption);
+			
 			Promise.all(Object.keys(socialUrls).map(function(network) {
 				var socialLinkEl = rootEl.querySelector('.o-share__action--'+network);
 				if (socialLinkEl) {
@@ -225,12 +227,15 @@
 					return Promise.resolve(1);
 				}
 			}));
+
 			generateSocialUrl('url').then(function(destUrl) {
 				rootEl.querySelector('.o-share__urlbox').value = destUrl;
 			});
+
 			[].slice.call(rootEl.querySelectorAll('.o-share__giftdesc')).forEach(function(el) {
 				el.style.display = 'none';
 			});
+
 			if (descEl) {
 				descEl.style.display = 'block';
 				rootEl.querySelector('.o-share__creditmsg').style.display = 'block';
@@ -250,8 +255,6 @@
 			} else if (!(rootEl instanceof HTMLElement)) {
 				rootEl = document.querySelector(rootEl);
 			}
-
-			console.log(rootEl);
 
 			const rootDelegate = new DomDelegate(rootEl);
 			rootDelegate.on('copy', '.o-share__urlbox', handleCopied);
@@ -280,21 +283,19 @@
 				if(tokenTimeout === undefined){
 
 					tokenTimeout = setTimeout(function(){
-						console.log("timeoutCalled");
 						getShareUrl(1)
-							.then(function(data){
+						.then(function(data){
+							if (data.success) {
+								const code = data.data.shareCode;
+								const shortUrl = data.data.shortUrl;
 
-								if(data.shareCode !== undefined){
+								const join = (window.location.href.contains("?")) ? "&" : "?";
 
-									var join = (window.location.href.contains("?")) ? "&" : "?";
+								window.history.pushState({}, undefined, window.location.href + join + "shareCode=" + code);
 
-									window.history.pushState({}, undefined, window.location.href + join + "shareCode=" + data.shareCode);
-
-								}
-
-							})
-						;
-
+								urlEl.value = shortUrl;
+							}
+						});
 					}, 5000);
 
 				}
