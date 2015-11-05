@@ -14,6 +14,22 @@
 		email: "mailto:?subject=See this article on FT.com&body={{title}}%0A{{url}}"
 	};
 
+	const shareUrlPromises = {};
+
+	let tokenTimeout = undefined;
+
+	/**
+	  * Checks if a passed url has sharecode parameter in it
+	  *
+	  * @private
+	  */
+
+	function urlAlreadyHasShareCode(url){
+
+		return url.indexOf("shareCode") > -1 ? true : false;
+
+	}
+
 	/**
 	  * @class Share
 	  *
@@ -29,11 +45,8 @@
 	function Share(rootEl, config) {
 		const oShare = this;
 		const openWindows = {};
-		const shareUrlPromises = {};
 		const urlEl = rootEl.querySelector('.o-share__urlbox');
 		let bodyDelegate;
-
-		let tokenTimeout = undefined;
 
 		/**
 		  * Helper function to dispatch oShare namespaced events
@@ -45,18 +58,6 @@
 				detail: data || {},
 				bubbles: true
 			}));
-		}
-
-		/**
-		  * Checks if a passed url has sharecode parameter in it
-		  *
-		  * @private
-		  */
-
-		function urlAlreadyHasShareCode(url){
-
-			return url.indexOf("shareCode") > -1 ? true : false;
-
 		}
 
 		function tooltip(text) {
@@ -278,30 +279,6 @@
 				relatedTwitterAccounts: rootEl.getAttribute('data-o-share-relatedTwitterAccounts') || ''
 			}, config || {});
 
-			if(urlAlreadyHasShareCode(window.location.href) === false){
-
-				if(tokenTimeout === undefined){
-
-					tokenTimeout = setTimeout(function(){
-						getShareUrl(1)
-						.then(function(data){
-							if (data.success) {
-								const code = data.data.shareCode;
-								const shortUrl = data.data.shortUrl;
-
-								const join = (window.location.href.contains("?")) ? "&" : "?";
-
-								window.history.pushState({}, undefined, window.location.href + join + "shareCode=" + code);
-
-								urlEl.value = shortUrl;
-							}
-						});
-					}, 5000);
-
-				}
-
-			}
-
 			dispatchCustomEvent('ready', {
 				share: oShare
 			});
@@ -352,4 +329,26 @@
 		return shareInstances;
 	};
 
-	module.exports = Share;
+	Share.addShareCodeToUrl = function () {
+		if (urlAlreadyHasShareCode(window.location.href) === false) {
+			if (tokenTimeout === undefined) {
+				tokenTimeout = setTimeout(function () {
+					getShareUrl(1)
+					.then(function (data) {
+						if (data.success) {
+							const code = data.data.shareCode;
+							const shortUrl = data.data.shortUrl;
+
+							const join = (window.location.href.contains("?")) ? "&" : "?";
+
+							window.history.pushState({}, undefined, window.location.href + join + "shareCode=" + code);
+						}
+					});
+				}, 5000);
+
+			}
+
+		}
+	}
+
+module.exports = Share;
