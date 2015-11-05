@@ -48,6 +48,8 @@
 		const urlEl = rootEl.querySelector('.o-share__urlbox');
 		let bodyDelegate;
 
+		var selectedAmount = undefined;
+
 		/**
 		  * Helper function to dispatch oShare namespaced events
 		  *
@@ -124,16 +126,39 @@
 		}
 
 		function handleGiftOptionChange(ev) {
-			var cfgEl = rootEl.querySelector('.o-share__customgift');
-			if (ev.target.value === 'cfg' && ev.target.checked) {
+			const cfgEl = rootEl.querySelector('.o-share__customgift');
+			const customAmountRadio = rootEl.querySelector('#o-share-giftoption-cfg');
+
+			if (ev.target == customAmountRadio) {
+				cfgEl.disabled = false;
+				cfgEl.focus();
+
 				if (!cfgEl.value || isNaN(cfgEl.value)) {
 					cfgEl.value = 5;
 				}
-				cfgEl.disabled = false;
-				cfgEl.focus();
-			}
-			if (ev.target.matches('.o-share__giftoption') && ev.target.value !== 'cfg' && ev.target.checked) {
+
+				getShareUrl(cfgEl.value)
+				.then(data => {
+					const shortUrl = data.data.shortUrl;
+					urlEl.value = shortUrl;
+				});
+			} else if (ev.target === cfgEl) {
+				if (!cfgEl.value || isNaN(cfgEl.value)) {
+					cfgEl.value = 5;
+				}
+
+				getShareUrl(cfgEl.value)
+				.then(data => {
+					const shortUrl = data.data.shortUrl;
+					urlEl.value = shortUrl;
+				});
+			} else if (ev.target.matches('.o-share__giftoption') && ev.target.checked) {
 				cfgEl.disabled = true;
+				getShareUrl(ev.target.value)
+				.then(data => {
+					const shortUrl = data.data.shortUrl;
+					urlEl.value = shortUrl;
+				});
 			}
 			render();
 		}
@@ -143,44 +168,7 @@
 		  *
 		  * @private
 		  */
-		function getShareUrl(shareValue) {
-
-			let maxShares = undefined;
-
-			if (shareValue !== undefined) {
-
-				maxShares = shareValue;
-
-			} else {
-				maxShares = rootEl.querySelector('input.o-share__giftoption:checked').value;
-
-				if (maxShares === 'cfg') {
-					maxShares = rootEl.querySelector('input.o-share__customgift').value
-				}
-
-			}
-
-			if (shareUrlPromises[maxShares]) {
-				return shareUrlPromises[maxShares];
-			}
-
-			const serviceURL = "http://sharecode.ft.com/generate";
-
-			shareUrlPromises[maxShares] = fetch(serviceURL +
-						"?target=" + encodeURIComponent(location.href.split("?")[0]) +
-						"&shareEventId=" + (Date.now() / 1000 | 0) +
-						"&maxShares=" + maxShares
-					,{credentials: 'include'})
-				.then(function(response) {
-					return response.text();
-				}).then(function(data){
-					return JSON.parse(data);
-				})
-			;
-
-			return shareUrlPromises[maxShares];
-		}
-
+		
 		/**
 		  * Transforms the default social urls
 		  *
@@ -257,6 +245,8 @@
 				rootEl = document.querySelector(rootEl);
 			}
 
+			console.log("THIS RUNS");
+
 			const rootDelegate = new DomDelegate(rootEl);
 			rootDelegate.on('copy', '.o-share__urlbox', handleCopied);
 			rootDelegate.on('click', '.o-share__btncopy', handleCopy);
@@ -329,19 +319,52 @@
 		return shareInstances;
 	};
 
+
+	function getShareUrl(shareValue) {
+
+		let maxShares = 1;
+
+		if (shareValue !== undefined) {
+
+			maxShares = shareValue;
+
+		}
+
+		if (shareUrlPromises[maxShares]) {
+			return shareUrlPromises[maxShares];
+		}
+
+		const serviceURL = "https://sharecode.ft.com/generate";
+
+		shareUrlPromises[maxShares] = fetch(serviceURL +
+					"?target=" + encodeURIComponent(location.href.split("?")[0]) +
+					"&shareEventId=" + (Date.now() / 1000 | 0) +
+					"&maxShares=" + maxShares
+				,{credentials: 'include'})
+			.then(function(response) {
+				return response.text();
+			}).then(function(data){
+				return JSON.parse(data);
+			})
+		;
+
+		return shareUrlPromises[maxShares];
+	}
+
+
 	Share.addShareCodeToUrl = function () {
 		if (urlAlreadyHasShareCode(window.location.href) === false) {
 			if (tokenTimeout === undefined) {
 				tokenTimeout = setTimeout(function () {
+					console.log("TIMEOUT CALLED");
 					getShareUrl(1)
 					.then(function (data) {
 						if (data.success) {
 							const code = data.data.shareCode;
-							const shortUrl = data.data.shortUrl;
 
 							const join = (window.location.href.contains("?")) ? "&" : "?";
 
-							window.history.pushState({}, undefined, window.location.href + join + "shareCode=" + code);
+							window.history.pushState({}, undefined, window.location.href + join + "share_code=" + code);
 						}
 					});
 				}, 5000);
