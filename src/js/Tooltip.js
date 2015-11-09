@@ -67,7 +67,6 @@ Tooltip.prototype.setText = function(text) {
 Tooltip.prototype.destroy = function() {
 	this.tooltipEl.parentElement.removeChild(this.tooltipEl);
 	this.tooltipEl = undefined;
-	return undefined;
 };
 
 module.exports = Tooltip;

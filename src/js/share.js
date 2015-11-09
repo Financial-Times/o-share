@@ -139,7 +139,7 @@
 
 				getShareUrl(cfgEl.value)
 				.then(data => {
-					const shortUrl = data.data.shortURL;
+					const shortUrl = data.data.shortUrl;
 					urlEl.value = shortUrl;
 				});
 			} else if (ev.target === cfgEl) {
@@ -149,14 +149,15 @@
 
 				getShareUrl(cfgEl.value)
 				.then(data => {
-					const shortUrl = data.data.shortURL;
+					const shortUrl = data.data.shortUrl;
 					urlEl.value = shortUrl;
+
 				});
 			} else if (ev.target.matches('.o-share__giftoption') && ev.target.checked) {
 				cfgEl.disabled = true;
 				getShareUrl(ev.target.value)
 				.then(data => {
-					const shortUrl = data.data.shortURL;
+					const shortUrl = data.data.shortUrl;
 					urlEl.value = shortUrl;
 				});
 			}
@@ -180,7 +181,7 @@
 				.then(function(data) {
 					if (data.success) {
 						let templateString = socialUrls[socialNetwork];
-						return templateString.replace('{{url}}', data.data.shortURL)
+						return templateString.replace('{{url}}', data.data.shortUrl)
 							.replace('{{title}}', encodeURIComponent(config.title))
 							.replace('{{titleExtra}}', encodeURIComponent(config.titleExtra))
 							.replace('{{summary}}', encodeURIComponent(config.summary))
