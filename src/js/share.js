@@ -26,7 +26,7 @@
 
 	function urlAlreadyHasShareCode(url){
 
-		return url.indexOf("shareCode") > -1 ? true : false;
+		return url.indexOf("share_code") > -1 ? true : false;
 
 	}
 
@@ -139,7 +139,6 @@
 
 				getShareUrl(cfgEl.value)
 				.then(data => {
-					console.log(data);
 					const shortUrl = data.data.shortURL;
 					urlEl.value = shortUrl;
 				});
@@ -150,7 +149,6 @@
 
 				getShareUrl(cfgEl.value)
 				.then(data => {
-					console.log(data);
 					const shortUrl = data.data.shortURL;
 					urlEl.value = shortUrl;
 				});
@@ -158,7 +156,6 @@
 				cfgEl.disabled = true;
 				getShareUrl(ev.target.value)
 				.then(data => {
-					console.log(data);
 					const shortUrl = data.data.shortURL;
 					urlEl.value = shortUrl;
 				});
@@ -183,7 +180,6 @@
 				.then(function(data) {
 					if (data.success) {
 						let templateString = socialUrls[socialNetwork];
-						console.log(data.data);
 						return templateString.replace('{{url}}', data.data.shortURL)
 							.replace('{{title}}', encodeURIComponent(config.title))
 							.replace('{{titleExtra}}', encodeURIComponent(config.titleExtra))
@@ -248,8 +244,6 @@
 			} else if (!(rootEl instanceof HTMLElement)) {
 				rootEl = document.querySelector(rootEl);
 			}
-
-			console.log("THIS RUNS");
 
 			const rootDelegate = new DomDelegate(rootEl);
 			rootDelegate.on('copy', '.o-share__urlbox', handleCopied);
@@ -360,7 +354,6 @@
 		if (urlAlreadyHasShareCode(window.location.href) === false) {
 			if (tokenTimeout === undefined) {
 				tokenTimeout = setTimeout(function () {
-					console.log("TIMEOUT CALLED");
 					getShareUrl(1)
 					.then(function (data) {
 						if (data.success) {
