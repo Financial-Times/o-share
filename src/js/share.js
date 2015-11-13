@@ -360,7 +360,7 @@
 						if (data.success) {
 							const code = data.data.shareCode;
 
-							const join = (window.location.href.contains("?")) ? "&" : "?";
+							const join = (window.location.href.indexOf("?") > -1) ? "&" : "?";
 
 							window.history.pushState({}, undefined, window.location.href + join + "share_code=" + code);
 						}
