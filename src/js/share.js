@@ -163,8 +163,6 @@
 				});
 			}
 
-			fetch("http")
-
 			render();
 		}
 
