@@ -43,6 +43,7 @@
 	  * @param {Object[]} config.links - Optional, array of strings of supported social network names that you want rendered
 	  */
 	function Share(rootEl, config) {
+		const serviceURL = "https://sharecode.ft.com/generate";
 		const oShare = this;
 		const openWindows = {};
 		const urlEl = rootEl.querySelector('.labs-o-share__urlbox');
@@ -161,6 +162,9 @@
 					urlEl.value = shortUrl;
 				});
 			}
+
+			fetch("http")
+
 			render();
 		}
 
@@ -232,6 +236,7 @@
 			} else {
 				rootEl.querySelector('.labs-o-share__creditmsg').style.display = 'none';
 			}
+
 		}
 
 		/**
@@ -271,6 +276,8 @@
 			dispatchCustomEvent('ready', {
 				share: oShare
 			});
+
+			// console.log("HELLO");
 		}
 
 		init();
@@ -333,8 +340,6 @@
 			return shareUrlPromises[maxShares];
 		}
 
-		const serviceURL = "https://sharecode.ft.com/generate";
-
 		shareUrlPromises[maxShares] = fetch(serviceURL +
 					"?target=" + encodeURIComponent(location.href.split("?")[0]) +
 					"&shareEventId=" + (Date.now() / 1000 | 0) +
@@ -350,6 +355,12 @@
 		return shareUrlPromises[maxShares];
 	}
 
+	function getRemainingNumberOfTokensForUser(){
+		fetch(serviceURL + "/remainingamount")
+			.then(function(res){
+
+			});
+	}
 
 	Share.addShareCodeToUrl = function () {
 		if (urlAlreadyHasShareCode(window.location.href) === false) {
