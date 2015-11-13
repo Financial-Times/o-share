@@ -1,11 +1,11 @@
 ////
-/// @group o-share
+/// @group labs-o-share
 /// @link http://registry.origami.ft.com/components/o-share
 ////
 
 /// Generate base share styles
-/// @param {String} $classname [o-share] - base class name
-@mixin oShareBase($classname: o-share) {
+/// @param {String} $classname [labs-o-share] - base class name
+@mixin labsShareBase($classname: labs-o-share) {
 	.#{$classname} {
 		display: flex;
 		flex-wrap: wrap;
@@ -39,15 +39,15 @@
 		float: left;
 		margin: 0;
 		list-style-type: none;
-		line-height: $o-share-icon-size;
+		line-height: $labs-o-share-icon-size;
 		cursor: pointer;
 
 		i {
 			float: left;
 			background-size: 100% 100%;
-			width: $o-share-icon-size;
-			height: $o-share-icon-size;
-			text-indent: $o-share-icon-size;
+			width: $labs-o-share-icon-size;
+			height: $labs-o-share-icon-size;
+			text-indent: $labs-o-share-icon-size;
 			overflow: hidden;
 		}
 
@@ -81,13 +81,13 @@
 		@include oButtonsSize(small);
 	}
 	.#{$classname}__giftoptions {
-		@include oColorsFor(o-share-box box, background);
+		@include oColorsFor(labs-o-share-box box, background);
 		padding: 10px;
 		margin-top: 5px;
 		box-sizing: border-box;
 		> form {
 			margin-top: 5px;
-			@include oFormsRadioCheckbox((radio:".o-share__giftoption", checkbox:".o-share__chkbox", label: ".o-share__giftlabel"));
+			@include oFormsRadioCheckbox((radio:".labs-o-share__giftoption", checkbox:".labs-o-share__chkbox", label: ".labs-o-share__giftlabel"));
 		}
 		p {
 			margin: 5px 0 0 0;
@@ -113,13 +113,13 @@
 }
 
 /// Action link styles
-/// @param {String} $classname [o-share] - base class name
-@mixin oShareActionLink($classname: o-share) {
+/// @param {String} $classname [labs-o-share] - base class name
+@mixin labsShareActionLink($classname: labs-o-share) {
 	.#{$classname}__action--url {
 		display: none;
 
 		i {
-			background-image: url(_oShareGetIconUrl(link));
+			background-image: url(_labsShareGetIconUrl(link));
 		}
 
 		input {
@@ -140,7 +140,7 @@
 		}
 	}
 
-	[data-o-share--js] .#{$classname}__action--url {
+	[data-labs-o-share--js] .#{$classname}__action--url {
 		display: block;
 	}
 
@@ -155,12 +155,12 @@
 /// Icon
 ///
 /// @param {String} $name - Name of the icon
-/// @param {String} $classname [o-share] - base class name
-@mixin oShareActionIcon($name, $classname: o-share) {
+/// @param {String} $classname [labs-o-share] - base class name
+@mixin labsShareActionIcon($name, $classname: labs-o-share) {
 	.#{$classname}__action--#{$name} i {
-		background-image: url(_oShareGetIconUrl($name, $format: png) + "&width=" + _oShareStripUnits($o-share-icon-size));
+		background-image: url(_labsShareGetIconUrl($name, $format: png) + "&width=" + _labsShareStripUnits($labs-o-share-icon-size));
 		// The weird value for rgba is to prevent Sass converting rgba(0,0,0,0) to 'transparent',
 		// which would cause the following line of css to be understood by ie7/8 and the svg to be downloaded
-		background: rgba(0, 0, 0, 0.0001) url(_oShareGetIconUrl($name)) center/100% no-repeat;
+		background: rgba(0, 0, 0, 0.0001) url(_labsShareGetIconUrl($name)) center/100% no-repeat;
 	}
 }

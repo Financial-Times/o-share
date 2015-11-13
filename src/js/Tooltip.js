@@ -7,7 +7,7 @@
  * @param {HTMLElement} refEl
  */
 function Tooltip(text, refEl) {
-	this.cssClass = 'o-share-tooltip';
+	this.cssClass = 'labs-o-share-tooltip';
 
 	/**
 	 * Creates a tooltip element

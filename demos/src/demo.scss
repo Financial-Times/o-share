@@ -1,4 +1,4 @@
-$o-share-is-silent: false;
+$labs-o-share-is-silent: false;
 @import '../../main';
 
 body {
@@ -6,7 +6,7 @@ body {
 	text-align: center; // Place link in center to ensure overlay does not overflow screen
 }
 
-.o-share {
+.labs-o-share {
 	text-align: left; // Correct for body text-align
 }
 

@@ -8,18 +8,22 @@
 @import 'src/scss/share';
 @import 'src/scss/tooltip';
 
-@include oShareActionIcon(googleplus, o-share);
-@include oShareActionIcon(reddit, o-share);
+@include labsShareActionIcon(twitter);
+@include labsShareActionIcon(facebook);
+@include labsShareActionIcon(linkedin);
+@include labsShareActionIcon(googleplus);
+@include labsShareActionIcon(whatsapp);
+@include labsShareActionIcon(reddit);
 
-@if (not $o-share-is-silent) {
-	@include oShareBase();
-	@include oShareActionLink();
-	@include oShareActionIcon(twitter);
-	@include oShareActionIcon(facebook);
-	@include oShareActionIcon(linkedin);
-	@include oShareActionIcon(googleplus);
-	@include oShareActionIcon(whatsapp);
-	@include oShareActionIcon(reddit);
-	@include oShareActionIcon(pinterest);
-	@include oShareTooltip();
+@if (not $labs-o-share-is-silent) {
+	@include labsShareBase();
+	@include labsShareActionLink();
+	@include labsShareActionIcon(twitter);
+	@include labsShareActionIcon(facebook);
+	@include labsShareActionIcon(linkedin);
+	@include labsShareActionIcon(googleplus);
+	@include labsShareActionIcon(whatsapp);
+	@include labsShareActionIcon(reddit);
+	@include labsShareActionIcon(pinterest);
+	@include labsShareTooltip();
 }

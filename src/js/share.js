@@ -33,7 +33,7 @@
 	/**
 	  * @class Share
 	  *
-	  * @param {(HTMLElement|string)} [rootEl=document.body] - Element where to search for an o-share component. You can pass an HTMLElement or a selector string
+	  * @param {(HTMLElement|string)} [rootEl=document.body] - Element where to search for an labs-o-share component. You can pass an HTMLElement or a selector string
 	  * @param {Object} config - Optional
 	  * @param {string} config.url - Optional, url to share
 	  * @param {string} config.title - Optional, title to be used in social network sharing
@@ -45,7 +45,7 @@
 	function Share(rootEl, config) {
 		const oShare = this;
 		const openWindows = {};
-		const urlEl = rootEl.querySelector('.o-share__urlbox');
+		const urlEl = rootEl.querySelector('.labs-o-share__urlbox');
 		let bodyDelegate;
 
 		var selectedAmount = undefined;
@@ -68,7 +68,7 @@
 		}
 
 		function handleCloseToolip(ev) {
-			if (!rootEl.querySelector('.o-share__link').contains(ev.target)) {
+			if (!rootEl.querySelector('.labs-o-share__link').contains(ev.target)) {
 				oShare.tip = oShare.tip.destroy();
 				document.body.removeEventListener('click', handleCloseToolip);
 				document.body.removeEventListener('keypress', handleCloseToolip);
@@ -99,7 +99,7 @@
 		}
 
 		function handleSocial(ev) {
-			const actionEl = ev.target.closest('.o-share__action');
+			const actionEl = ev.target.closest('.labs-o-share__action');
 			const urlEl = actionEl.querySelector('a[href]');
 			if (urlEl) {
 				ev.preventDefault();
@@ -126,8 +126,8 @@
 		}
 
 		function handleGiftOptionChange(ev) {
-			const cfgEl = rootEl.querySelector('.o-share__customgift');
-			const customAmountRadio = rootEl.querySelector('#o-share-giftoption-cfg');
+			const cfgEl = rootEl.querySelector('.labs-o-share__customgift');
+			const customAmountRadio = rootEl.querySelector('#labs-o-share-giftoption-cfg');
 
 			if (ev.target == customAmountRadio) {
 				cfgEl.disabled = false;
@@ -153,7 +153,7 @@
 					urlEl.value = shortUrl;
 
 				});
-			} else if (ev.target.matches('.o-share__giftoption') && ev.target.checked) {
+			} else if (ev.target.matches('.labs-o-share__giftoption') && ev.target.checked) {
 				cfgEl.disabled = true;
 				getShareUrl(ev.target.value)
 				.then(data => {
@@ -204,11 +204,11 @@
 		  * @private
 		  */
 		function render() {
-			const giftoption = rootEl.querySelector('input.o-share__giftoption:checked').value;
-			const descEl = rootEl.querySelector('.o-share__giftdesc--'+giftoption);
+			const giftoption = rootEl.querySelector('input.labs-o-share__giftoption:checked').value;
+			const descEl = rootEl.querySelector('.labs-o-share__giftdesc--'+giftoption);
 			
 			Promise.all(Object.keys(socialUrls).map(function(network) {
-				var socialLinkEl = rootEl.querySelector('.o-share__action--'+network);
+				var socialLinkEl = rootEl.querySelector('.labs-o-share__action--'+network);
 				if (socialLinkEl) {
 					return generateSocialUrl(network).then(function(destUrl) {
 						socialLinkEl.querySelector('a').href = destUrl;
@@ -219,18 +219,18 @@
 			}));
 
 			generateSocialUrl('url').then(function(destUrl) {
-				rootEl.querySelector('.o-share__urlbox').value = destUrl;
+				rootEl.querySelector('.labs-o-share__urlbox').value = destUrl;
 			});
 
-			[].slice.call(rootEl.querySelectorAll('.o-share__giftdesc')).forEach(function(el) {
+			[].slice.call(rootEl.querySelectorAll('.labs-o-share__giftdesc')).forEach(function(el) {
 				el.style.display = 'none';
 			});
 
 			if (descEl) {
 				descEl.style.display = 'block';
-				rootEl.querySelector('.o-share__creditmsg').style.display = 'block';
+				rootEl.querySelector('.labs-o-share__creditmsg').style.display = 'block';
 			} else {
-				rootEl.querySelector('.o-share__creditmsg').style.display = 'none';
+				rootEl.querySelector('.labs-o-share__creditmsg').style.display = 'none';
 			}
 		}
 
@@ -247,25 +247,25 @@
 			}
 
 			const rootDelegate = new DomDelegate(rootEl);
-			rootDelegate.on('copy', '.o-share__urlbox', handleCopied);
-			rootDelegate.on('click', '.o-share__btncopy', handleCopy);
-			rootDelegate.on('click', '.o-share__action', handleSocial);
-			rootDelegate.on('click', '.o-share__btnemail', handleEmail);
-			rootDelegate.on('change', '.o-share__giftoption', handleGiftOptionChange);
-			rootDelegate.on('change', '.o-share__customgift', handleGiftOptionChange);
+			rootDelegate.on('copy', '.labs-o-share__urlbox', handleCopied);
+			rootDelegate.on('click', '.labs-o-share__btncopy', handleCopy);
+			rootDelegate.on('click', '.labs-o-share__action', handleSocial);
+			rootDelegate.on('click', '.labs-o-share__btnemail', handleEmail);
+			rootDelegate.on('change', '.labs-o-share__giftoption', handleGiftOptionChange);
+			rootDelegate.on('change', '.labs-o-share__customgift', handleGiftOptionChange);
 
-			rootEl.setAttribute('data-o-share--js', '');
+			rootEl.setAttribute('data-labs-o-share--js', '');
 
 			oShare.rootDomDelegate = rootDelegate;
 			oShare.rootEl = rootEl;
 
 			config = Object.assign({
-				links: rootEl.hasAttribute('data-o-share-links') ? rootEl.getAttribute('data-o-share-links').split(' ') : [],
-				url: rootEl.getAttribute('data-o-share-url') || '',
-				title: rootEl.getAttribute('data-o-share-title') || '',
-				titleExtra: rootEl.getAttribute('data-o-share-titleExtra') || '',
-				summary: rootEl.getAttribute('data-o-share-summary') || '',
-				relatedTwitterAccounts: rootEl.getAttribute('data-o-share-relatedTwitterAccounts') || ''
+				links: rootEl.hasAttribute('data-labs-o-share-links') ? rootEl.getAttribute('data-labs-o-share-links').split(' ') : [],
+				url: rootEl.getAttribute('data-labs-o-share-url') || '',
+				title: rootEl.getAttribute('data-labs-o-share-title') || '',
+				titleExtra: rootEl.getAttribute('data-labs-o-share-titleExtra') || '',
+				summary: rootEl.getAttribute('data-labs-o-share-summary') || '',
+				relatedTwitterAccounts: rootEl.getAttribute('data-labs-o-share-relatedTwitterAccounts') || ''
 			}, config || {});
 
 			dispatchCustomEvent('ready', {
@@ -287,15 +287,15 @@
 			this.rootEl.removeChild(this.rootEl.children[i]);
 		}
 
-		this.rootEl.removeAttribute('data-o-share--js');
+		this.rootEl.removeAttribute('data-labs-o-share--js');
 		this.rootEl = undefined;
 		return undefined;
 	};
 
 	/**
-	  * Initialises all o-share components inside the element passed as the first parameter
+	  * Initialises all labs-o-share components inside the element passed as the first parameter
 	  *
-	  * @param {(HTMLElement|string)} [el=document.body] - Element where to search for o-share components. You can pass an HTMLElement or a selector string
+	  * @param {(HTMLElement|string)} [el=document.body] - Element where to search for labs-o-share components. You can pass an HTMLElement or a selector string
 	  * @returns {Array} - An array of Share instances
 	  */
 	Share.init = function(el) {
@@ -307,7 +307,7 @@
 			el = document.querySelector(el);
 		}
 
-		const shareElements = el.querySelectorAll('[data-o-component=o-share]');
+		const shareElements = el.querySelectorAll('[data-o-component=labs-o-share]');
 
 		for (let i = 0; i < shareElements.length; i++) {
 			if (!shareElements[i].hasAttribute('data-o-header--js')) {
