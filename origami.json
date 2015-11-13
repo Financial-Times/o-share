@@ -2,7 +2,7 @@
     "description": "Share module",
     "origamiType": "module",
     "origamiVersion": 1,
-    "support": "https://github.com/Financial-Times/o-share/issues",
+    "support": "https://github.com/ftlabs/o-share/issues",
     "supportStatus": "active",
     "browserFeatures": {
         "required": [
@@ -16,7 +16,7 @@
         ]
     },
     "ci": {
-        "travis": "https://api.travis-ci.org/repos/Financial-Times/o-share/builds.json"
+        "travis": "https://api.travis-ci.org/repos/ftlabs/o-share/builds.json"
     },
     "demos": [
         {

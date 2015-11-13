@@ -56,7 +56,7 @@
 		  * @private
 		  */
 		function dispatchCustomEvent(name, data) {
-			oShare.rootEl.dispatchEvent(new CustomEvent('oShare.' + name, {
+			oShare.rootEl.dispatchEvent(new CustomEvent('labsOShare.' + name, {
 				detail: data || {},
 				bubbles: true
 			}));
@@ -92,7 +92,7 @@
 		function handleCopy() {
 
 			urlEl.select();
-			
+
 			if (!document.execCommand('copy')) {
 				tooltip("Copy link to clipboard");
 			}
@@ -169,7 +169,7 @@
 		  *
 		  * @private
 		  */
-		
+
 		/**
 		  * Transforms the default social urls
 		  *
@@ -206,7 +206,7 @@
 		function render() {
 			const giftoption = rootEl.querySelector('input.labs-o-share__giftoption:checked').value;
 			const descEl = rootEl.querySelector('.labs-o-share__giftdesc--'+giftoption);
-			
+
 			Promise.all(Object.keys(socialUrls).map(function(network) {
 				var socialLinkEl = rootEl.querySelector('.labs-o-share__action--'+network);
 				if (socialLinkEl) {

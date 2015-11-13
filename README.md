@@ -1,4 +1,4 @@
-o-share [![Build Status](https://travis-ci.org/Financial-Times/o-share.png?branch=master)](https://travis-ci.org/Financial-Times/o-share)
+labs-o-share [![Build Status](https://travis-ci.org/ftlabs/o-share.png?branch=master)](https://travis-ci.org/ftlabs/o-share)
 =======
 
 Social media and URL sharing buttons.
@@ -70,27 +70,27 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 ```
 
-Check out the [API docs](http://registry.origami.ft.com/components/o-share#docs-js)
+Check out the [API docs](http://registry.origami.ft.com/components/labs-o-share#docs-js)
 
 #### Sass
 
 ```scss
-@import 'o-share/main';
+@import 'labs-o-share/main';
 ```
 
-We also support silent mode. So if you want to use all the default `o-share` classes, you need to set it to false:
+We also support silent mode. So if you want to use all the default `labs-o-share` classes, you need to set it to false:
 
 ```scss
-$o-share-is-silent: false;
+$labs-o-share-is-silent: false;
 ```
 
 If not, you can just use our mixins to set you custom class.
 
-Check out the [API docs](http://registry.origami.ft.com/components/o-share#docs-css)
+Check out the [API docs](http://registry.origami.ft.com/components/labs-o-share#docs-css)
 
 ## Core experience
 
-To support core experience, you need to include the [complete markup](https://github.com/Financial-Times/o-share/blob/master/main.mustache) directly.
+To support core experience, you need to include the [complete markup](https://github.com/ftlabs/o-share/blob/master/main.mustache) directly.
 
 Social media share buttons will function as plain `<a>` elements (and can be set to `target="_blank"` if the product wishes.
 
@@ -99,20 +99,20 @@ Social media share buttons will function as plain `<a>` elements (and can be set
 It also registers the custom `<o-share>` element which you can use. And you can use it via JavaScript by using the `#element` attribute like this:
 
 ```
-var oShare = require('o-share');
-var oShareElement = new oShare.Element();
+var labsOShare = require('labs-o-share');
+var labsOShareElement = new labsOShare.Element();
 // Set all the data attributes
-document.body.appendChild(oShareElement);
-var oShareInstance = new oShare(oShareElement);
+document.body.appendChild(labsOShareElement);
+var labsOShareInstance = new labsOShare(labsOShareElement);
 ```
 
 ## Events
 
 This module will trigger the following events on its root element:
 
-* `oShare.ready` - when a share links behaviour has been initialised
-* `oShare.open` - when a share link has been opened (popup/flyout opened as a result of button click)
-* `oShare.copy` - when the URL has been copied
+* `labsOShare.ready` - when a share links behaviour has been initialised
+* `labsOShare.open` - when a share link has been opened (popup/flyout opened as a result of button click)
+* `labsOShare.copy` - when the URL has been copied
 
 ----
 

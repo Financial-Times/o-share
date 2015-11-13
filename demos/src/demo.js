@@ -1,5 +1,5 @@
 /*global require*/
-var oShare = require('../../main.js');
+var labsOShare = require('../../main.js');
 
 var shares;
 
@@ -10,5 +10,5 @@ document.body.addEventListener("oOverlay.destroy", function() {
 });
 
 document.body.addEventListener("oOverlay.ready", function() {
-	shares = oShare.init();
+	shares = labsOShare.init();
 });
