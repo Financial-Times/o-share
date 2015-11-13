@@ -43,7 +43,6 @@
 	  * @param {Object[]} config.links - Optional, array of strings of supported social network names that you want rendered
 	  */
 	function Share(rootEl, config) {
-		const serviceURL = "https://sharecode.ft.com/generate";
 		const oShare = this;
 		const openWindows = {};
 		const urlEl = rootEl.querySelector('.labs-o-share__urlbox');
@@ -162,6 +161,11 @@
 					urlEl.value = shortUrl;
 				});
 			}
+
+			getRemainingNumberOfTokensForUser()
+				.then(function(amount){
+					document.querySelectorAll('data-labs-o-share-credit-count')[0].textContent = amount;
+				});
 
 			render();
 		}
@@ -356,7 +360,9 @@
 	function getRemainingNumberOfTokensForUser(){
 		fetch(serviceURL + "/remainingamount")
 			.then(function(res){
-
+				if(res.success){
+					return res.amount;
+				}
 			});
 	}
 
