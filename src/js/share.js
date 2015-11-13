@@ -1,5 +1,5 @@
 	/**global require,module*/
-
+	const serviceURL = "https://sharecode.ft.com/generate";
 	const DomDelegate = require('ftdomdelegate');
 	const Tooltip = require('./Tooltip');
 
