@@ -1,0 +1,56 @@
+<a class="o-overlay-trigger o--if-js" data-o-overlay-gift-trigger="true" data-o-overlay-src="#overlay-for-labs-o-share" data-o-overlay-id="overlay" data-o-overlay-compact="true" data-o-overlay-arrow-position="top">Share</a>
+
+<script type="text/template" id="overlay-for-labs-o-share">
+	<div data-o-component="labs-o-share" data-labs-o-share--js="true" class="labs-o-share" data-labs-o-share-url='{{id}}' data-labs-o-share-title="{{title}}" data-labs-o-share-links="twitter facebook linkedin whatsapp googleplus reddit">
+		<div class='labs-o-share__social'>
+			<h3>Share on social networks:</h3>
+			<ul>
+				<li class="labs-o-share__action labs-o-share__action--twitter">
+					<a><i>Twitter</i></a>
+				</li>
+				<li class="labs-o-share__action labs-o-share__action--facebook">
+					<a><i>Facebook</i></a>
+				</li>
+				<li class="labs-o-share__action labs-o-share__action--linkedin">
+					<a><i>LinkedIn</i></a>
+				</li>
+				<li class="labs-o-share__action labs-o-share__action--whatsapp">
+					<a data-trackable="whatsapp"><i>Whatsapp</i></a>
+				</li>
+				<li class="labs-o-share__action labs-o-share__action--googleplus">
+					<a><i>Google+</i></a>
+				</li>
+				<li class="labs-o-share__action labs-o-share__action--reddit">
+					<a><i>Reddit</i></a>
+				</li>
+			</ul>
+		</div>
+		<div class='labs-o-share__link'>
+			<h3>Share with friends/colleagues:</h3>
+			<div>
+				<input type='text' class="labs-o-share__urlbox" value="http://on.ft.com/1mUdgA2" />
+				<button class='labs-o-share__btncopy'>Copy</button>
+				<button class='labs-o-share__btnemail'>Email</button>
+			</div>
+		</div>
+		<div class='labs-o-share__giftoptions o--if-js'>
+			<p>This is <strong>subscriber-only</strong> content. Use <a href='http://labs.ft.com/url-sharing/'>gift credits</a> to guarantee that anyone you share with will be able to read it?</p>
+			<form>
+				<input type='radio' value='0' checked="true" name='labs-o-share-giftoption' class='labs-o-share__giftoption labs-o-share__giftoption--small' id='labs-o-share-giftoption-0' />
+					<label class='labs-o-share__giftlabel' for='labs-o-share-giftoption-0'>No</label>
+				<input type='radio' value='1' name='labs-o-share-giftoption' class='labs-o-share__giftoption labs-o-share__giftoption--small' id='labs-o-share-giftoption-1' />
+					<label class='labs-o-share__giftlabel' for='labs-o-share-giftoption-1'>Just one</label>
+				<input type='radio' value='-1' name='labs-o-share-giftoption' class='labs-o-share__giftoption labs-o-share__giftoption--small' id='labs-o-share-giftoption--1' />
+					<label class='labs-o-share__giftlabel' for='labs-o-share-giftoption--1'>Unlimited</label>
+				<input type='radio' value='cfg' name='labs-o-share-giftoption' class='labs-o-share__giftoption labs-o-share__giftoption--small' id='labs-o-share-giftoption-cfg' />
+					<label class='labs-o-share__giftlabel labs-o-share__giftlabel--cfg' for='labs-o-share-giftoption-cfg'>Custom:</label>
+				<input type='number' class='labs-o-share__customgift' maxlength="4" min="0" max="9999" disabled="true" />
+			</form>
+			<p class='labs-o-share__giftdesc labs-o-share__giftdesc--1'>The first person you share the link with will be able to read the article for free. Anyone else who gets the link may be asked to subscribe to read it. You will spend no more than 1 gift credit.</p>
+			<p class='labs-o-share__giftdesc labs-o-share__giftdesc---1'>Each non-subscriber who views your shared link will cost one gift credit. When your gift credits are used up, recipients must subscribe to view the article.</p>
+			<p class='labs-o-share__giftdesc labs-o-share__giftdesc--cfg'>Each non-subscriber who views your shared link will cost one gift credit. When your gift credits are used up or the limit you specify above is reached, recipients must subscribe to view the article.</p>
+
+			<p class='labs-o-share__creditmsg'>You have <span data-labs-o-share-credit-count="">TODO gift credits</span> remaining this month. <a href='http://labs.ft.com/url-sharing/#getmore'>Get more</a></p>
+		</div>
+	</div>
+</script>
