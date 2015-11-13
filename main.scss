@@ -8,6 +8,9 @@
 @import 'src/scss/share';
 @import 'src/scss/tooltip';
 
+@include oShareActionIcon(googleplus, o-share);
+@include oShareActionIcon(reddit, o-share);
+
 @if (not $o-share-is-silent) {
 	@include oShareBase();
 	@include oShareActionLink();

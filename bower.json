@@ -1,5 +1,5 @@
 {
-    "name": "o-share",
+    "name": "labs-o-share",
     "dependencies": {
         "ftdomdelegate": "^2.0.0",
         "o-colors": ">=2.5.0 <4",
