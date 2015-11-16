@@ -382,7 +382,7 @@
 								credentials: 'include'
 							})
 							.then(function(res){
-								if(res.status-success === true){
+								if(res['status-success'] === true){
 									return res.data.remaining_top_up_credits + res.data.remaining_monthly_credits;
 								}
 							});
