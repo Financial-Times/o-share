@@ -8,22 +8,11 @@
 @import 'src/scss/share';
 @import 'src/scss/tooltip';
 
+@include labsShareBase();
+@include labsShareActionLink();
 @include labsShareActionIcon(twitter);
 @include labsShareActionIcon(facebook);
 @include labsShareActionIcon(linkedin);
 @include labsShareActionIcon(googleplus);
 @include labsShareActionIcon(whatsapp);
 @include labsShareActionIcon(reddit);
-
-@if (not $labs-o-share-is-silent) {
-	@include labsShareBase();
-	@include labsShareActionLink();
-	@include labsShareActionIcon(twitter);
-	@include labsShareActionIcon(facebook);
-	@include labsShareActionIcon(linkedin);
-	@include labsShareActionIcon(googleplus);
-	@include labsShareActionIcon(whatsapp);
-	@include labsShareActionIcon(reddit);
-	@include labsShareActionIcon(pinterest);
-	@include labsShareTooltip();
-}

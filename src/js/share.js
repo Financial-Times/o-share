@@ -1,5 +1,5 @@
 	/**global require,module*/
-
+	const serviceURL = "https://sharecode.ft.com/generate";
 	const DomDelegate = require('ftdomdelegate');
 	const Tooltip = require('./Tooltip');
 
@@ -161,6 +161,12 @@
 					urlEl.value = shortUrl;
 				});
 			}
+
+			getRemainingNumberOfTokensForUser()
+				.then(function(amount){
+					document.querySelectorAll('data-labs-o-share-credit-count')[0].textContent = amount;
+				});
+
 			render();
 		}
 
@@ -232,6 +238,7 @@
 			} else {
 				rootEl.querySelector('.labs-o-share__creditmsg').style.display = 'none';
 			}
+
 		}
 
 		/**
@@ -271,6 +278,8 @@
 			dispatchCustomEvent('ready', {
 				share: oShare
 			});
+
+			// console.log("HELLO");
 		}
 
 		init();
@@ -333,8 +342,6 @@
 			return shareUrlPromises[maxShares];
 		}
 
-		const serviceURL = "https://sharecode.ft.com/generate";
-
 		shareUrlPromises[maxShares] = fetch(serviceURL +
 					"?target=" + encodeURIComponent(location.href.split("?")[0]) +
 					"&shareEventId=" + (Date.now() / 1000 | 0) +
@@ -350,6 +357,14 @@
 		return shareUrlPromises[maxShares];
 	}
 
+	function getRemainingNumberOfTokensForUser(){
+		fetch(serviceURL + "/remainingamount")
+			.then(function(res){
+				if(res.success){
+					return res.amount;
+				}
+			});
+	}
 
 	Share.addShareCodeToUrl = function () {
 		if (urlAlreadyHasShareCode(window.location.href) === false) {
@@ -360,7 +375,7 @@
 						if (data.success) {
 							const code = data.data.shareCode;
 
-							const join = (window.location.href.contains("?")) ? "&" : "?";
+							const join = (window.location.href.indexOf("?") > -1) ? "&" : "?";
 
 							window.history.pushState({}, undefined, window.location.href + join + "share_code=" + code);
 						}

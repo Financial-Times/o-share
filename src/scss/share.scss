@@ -164,3 +164,25 @@
 		background: rgba(0, 0, 0, 0.0001) url(_labsShareGetIconUrl($name)) center/100% no-repeat;
 	}
 }
+
+/// o-overlay/Next overrides
+
+.o-overlay{
+	margin-left: 215px;
+
+	&:after, &:before{
+		left: 20px !important;
+	}
+
+}
+
+.o-overlay-trigger[data-o-overlay-gift-trigger]{
+	cursor:pointer;
+	display: inline-block;
+	margin-top: 2px;
+}
+
+.article__share{
+	display: inline-block;
+	width: 100%;
+}
