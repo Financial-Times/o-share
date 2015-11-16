@@ -25,9 +25,9 @@
 	  * @private
 	  */
 
-	function urlAlreadyHasShareCode(url){
+	function urlParametersAlreadyHaveShareCode(parameters){
 
-		return url.indexOf("share_code") > -1 ? true : false;
+		return parameters.indexOf("share_code") > -1 ? true : false;
 
 	}
 
@@ -369,39 +369,25 @@
 
 		return shareUrlPromises[maxShares];
 	}
-	
-	function getUserUUID(){
-		return fetch(document.location,
-						{
-							credentials: 'include',
-							method : "HEAD"
-						}
-					)
-				.then(function(res){
-					return res.headers.get('FT-User-UUID');
-				})
-	}
 
 	function getRemainingNumberOfTokensForUser(){
-		// Let's get the user ID
-		return getUserUUID()
-					.then(function(UUID){
-						return fetch(serviceURL + "/remainingamount",
-							{
-								credentials: 'include'
-							})
-							.then(function(res){
-								if(res['status-success'] === true){
-									return res.data.remaining_top_up_credits + res.data.remaining_monthly_credits;
-								}
-							});
 
-					});
+		fetch(serviceURL + "/remainingamount",
+			{
+				credentials: 'include'
+			})
+			.then(res => res.json())
+			.then(function(json){
+				if(json['status-success'] === true){
+					return json.remaining_top_up_credits + json.remaining_monthly_credits;
+				}
+			})
+		;
 
 	}	
 
 	Share.addShareCodeToUrl = function () {
-		if (urlAlreadyHasShareCode(window.location.href)) {
+		if (urlParametersAlreadyHaveShareCode(window.location.search)) {
 			let otherParameters = removeExisingShareCodeFromURL();
 			let newURL = window.location.href.split('?')[0];
 
