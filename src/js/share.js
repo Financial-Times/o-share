@@ -164,8 +164,12 @@
 
 			getRemainingNumberOfTokensForUser()
 				.then(function(amount){
-					document.querySelectorAll('data-labs-o-share-credit-count')[0].textContent = amount;
-				});
+					rootEl.querySelectorAll('[data-labs-o-share-credit-count]')[0].textContent = amount;
+				})
+				.catch(function(err){
+					console.error("There was an error trying to obtain the remaining number of sharing tokens for the subscriber", err);
+				})
+			;
 
 			render();
 		}
@@ -356,15 +360,36 @@
 
 		return shareUrlPromises[maxShares];
 	}
+	
+	function getUserUUID(){
+		return fetch(document.location,
+						{
+							credentials: 'include',
+							method : "HEAD"
+						}
+					)
+				.then(function(res){
+					return res.headers.get('FT-User-UUID');
+				})
+	}
 
 	function getRemainingNumberOfTokensForUser(){
-		fetch(serviceURL + "/remainingamount")
-			.then(function(res){
-				if(res.success){
-					return res.amount;
-				}
-			});
-	}
+		// Let's get the user ID
+		return getUserUUID()
+					.then(function(UUID){
+						return fetch(serviceURL + "/remainingamount",
+							{
+								credentials: 'include'
+							})
+							.then(function(res){
+								if(res.status-success === true){
+									return res.data.remaining_top_up_credits + res.data.remaining_monthly_credits;
+								}
+							});
+
+					});
+
+	}	
 
 	Share.addShareCodeToUrl = function () {
 		if (urlAlreadyHasShareCode(window.location.href) === false) {
