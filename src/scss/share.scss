@@ -178,4 +178,11 @@
 
 .o-overlay-trigger[data-o-overlay-gift-trigger]{
 	cursor:pointer;
+	display: inline-block;
+	margin-top: 2px;
+}
+
+.article__share{
+	display: inline-block;
+	width: 100%;
 }
