@@ -112,15 +112,6 @@
 
 }
 
-.o-overlay{
-	margin-left: 215px;
-
-	&:after, &:before{
-		left: 20px !important;
-	}
-
-}
-
 /// Action link styles
 /// @param {String} $classname [labs-o-share] - base class name
 @mixin labsShareActionLink($classname: labs-o-share) {
@@ -172,4 +163,19 @@
 		// which would cause the following line of css to be understood by ie7/8 and the svg to be downloaded
 		background: rgba(0, 0, 0, 0.0001) url(_labsShareGetIconUrl($name)) center/100% no-repeat;
 	}
+}
+
+/// o-overlay/Next overrides
+
+.o-overlay{
+	margin-left: 215px;
+
+	&:after, &:before{
+		left: 20px !important;
+	}
+
+}
+
+.o-overlay-trigger[data-o-overlay-gift-trigger]{
+	cursor:pointer;
 }
