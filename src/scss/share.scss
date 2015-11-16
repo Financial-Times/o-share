@@ -112,6 +112,15 @@
 
 }
 
+.o-overlay{
+	margin-left: 215px;
+
+	&:after, &:before{
+		left: 20px !important;
+	}
+
+}
+
 /// Action link styles
 /// @param {String} $classname [labs-o-share] - base class name
 @mixin labsShareActionLink($classname: labs-o-share) {
