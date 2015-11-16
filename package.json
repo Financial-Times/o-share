@@ -12,6 +12,7 @@
     "karma-mocha": "^0.1.10",
     "karma-phantomjs-launcher": "^0.1.4",
     "mocha": "^2.2.1",
-    "phantomjs": "^1.9.7-3"
+    "phantomjs": "^1.9.7-3",
+    "query-string" : "^3.0.0"
   }
 }

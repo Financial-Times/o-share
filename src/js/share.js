@@ -1,6 +1,7 @@
 	/**global require,module*/
 	const serviceURL = "https://sharecode.ft.com/generate";
 	const DomDelegate = require('ftdomdelegate');
+	const qs = require('query-string');
 	const Tooltip = require('./Tooltip');
 
 	const socialUrls = {
@@ -27,6 +28,15 @@
 	function urlAlreadyHasShareCode(url){
 
 		return url.indexOf("share_code") > -1 ? true : false;
+
+	}
+
+	function removeExisingShareCodeFromURL(){
+
+		let params = qs.parse(window.location.search);
+		delete params.share_code;
+
+		return qs.stringify(params);
 
 	}
 
@@ -283,7 +293,6 @@
 				share: oShare
 			});
 
-			// console.log("HELLO");
 		}
 
 		init();
@@ -392,24 +401,34 @@
 	}	
 
 	Share.addShareCodeToUrl = function () {
-		if (urlAlreadyHasShareCode(window.location.href) === false) {
-			if (tokenTimeout === undefined) {
-				tokenTimeout = setTimeout(function () {
-					getShareUrl(1)
-					.then(function (data) {
-						if (data.success) {
-							const code = data.data.shareCode;
+		if (urlAlreadyHasShareCode(window.location.href)) {
+			let otherParameters = removeExisingShareCodeFromURL();
+			let newURL = window.location.href.split('?')[0];
 
-							const join = (window.location.href.indexOf("?") > -1) ? "&" : "?";
-
-							window.history.pushState({}, undefined, window.location.href + join + "share_code=" + code);
-						}
-					});
-				}, 5000);
-
+			if(otherParameters !== ""){
+				newURL += "?" + otherParameters;
 			}
 
+			window.history.pushState({}, undefined, newURL);
+
 		}
+
+		if (tokenTimeout === undefined) {
+			tokenTimeout = setTimeout(function () {
+				getShareUrl(1)
+				.then(function (data) {
+					if (data.success) {
+						const code = data.data.shareCode;
+
+						const join = (window.location.href.indexOf("?") > -1) ? "&" : "?";
+
+						window.history.pushState({}, undefined, window.location.href + join + "share_code=" + code);
+					}
+				});
+			}, 5000);
+
+		}
+
 	}
 
 module.exports = Share;

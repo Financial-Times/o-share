@@ -11,7 +11,8 @@ describe('general behaviour', () => {
 
 	beforeEach(() => {
 		fixtures.insertShareLinks();
-		shareEl = document.querySelector('[data-o-component=o-share]');
+		oOverlay.init();
+		shareEl = document.querySelector('[data-o-component=labs-o-share]');
 		testShare = new Share(shareEl);
 	});
 

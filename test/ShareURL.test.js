@@ -11,7 +11,7 @@ describe('share url behaviour', function() {
 
 	beforeEach(function() {
 		fixtures.insertShareLinks();
-		shareEl = document.querySelector('[data-o-component=o-share]');
+		shareEl = document.querySelector('[data-o-component=labs-o-share]');
 		testShare = new Share(shareEl);
 	});
 
