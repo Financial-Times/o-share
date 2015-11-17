@@ -26,22 +26,22 @@ function insertShareLinks() {
 			<h3>Share on social networks:</h3>
 			<ul>
 				<li class="labs-o-share__action labs-o-share__action--twitter">
-					<a href="http://twitter.com/"><i>Twitter</i></a>
+					<a href="https://twitter.com/intent/tweet?url=http:&#x2F;&#x2F;on.ft.com&#x2F;1mUdgA2&amp;text=Pfizer+says+its+AstraZeneca+vow+over+big+UK+presence+is+binding&amp;related=ftcompanies&amp;via=FT"><i>Twitter</i></a>
 				</li>
 				<li class="labs-o-share__action labs-o-share__action--facebook">
-					<a href="http://facebook.com/"><i>Facebook</i></a>
+					<a href="http://www.facebook.com/sharer.php?u=http:&#x2F;&#x2F;on.ft.com&#x2F;1mUdgA2&amp;t=Pfizer+says+its+AstraZeneca+vow+over+big+UK+presence+is+binding+|+FT%2Ecom+%7C+Pharmaceuticals"><i>Facebook</i></a>
 				</li>
 				<li class="labs-o-share__action labs-o-share__action--linkedin">
-					<a href="http://linkedin.com/"><i>LinkedIn</i></a>
+					<a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http:&#x2F;&#x2F;on.ft.com&#x2F;1mUdgA2&amp;title=Pfizer+says+its+AstraZeneca+vow+over+big+UK+presence+is+binding+|+FT%2Ecom+%7C+Pharmaceuticals&amp;summary=US+drugs+group+vows+to+maintain+big+British+presence&amp;source=Financial+Times"><i>LinkedIn</i></a>
 				</li>
 				<li class="labs-o-share__action labs-o-share__action--whatsapp">
-					<a data-trackable="whatsapp"><i>Whatsapp</i></a>
+					<a href="whatsapp://send?text=Pfizer+says+its+AstraZeneca+vow+over+big+UK+presence+is+binding%20-%20http:&#x2F;&#x2F;on.ft.com&#x2F;1mUdgA2" data-trackable="whatsapp"><i>Whatsapp</i></a>
 				</li>
 				<li class="labs-o-share__action labs-o-share__action--googleplus">
-					<a href="http://google.co.uk/"><i>Google+</i></a>
+					<a href="https://plus.google.com/share?url=http:&#x2F;&#x2F;on.ft.com&#x2F;1mUdgA2"><i>Google+</i></a>
 				</li>
 				<li class="labs-o-share__action labs-o-share__action--reddit">
-					<a href="http://reddit.com/"><i>Reddit</i></a>
+					<a href="http://reddit.com/submit?url=http:&#x2F;&#x2F;on.ft.com&#x2F;1mUdgA2&amp;title=Pfizer+says+its+AstraZeneca+vow+over+big+UK+presence+is+binding"><i>Reddit</i></a>
 				</li>
 			</ul>
 		</div>
