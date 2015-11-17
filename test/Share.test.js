@@ -11,7 +11,6 @@ describe('general behaviour', () => {
 
 	beforeEach(() => {
 		fixtures.insertShareLinks();
-		oOverlay.init();
 		shareEl = document.querySelector('[data-o-component=labs-o-share]');
 		testShare = new Share(shareEl);
 	});
@@ -26,7 +25,7 @@ describe('general behaviour', () => {
 	});
 
 	it('initialisation', () => {
-		expect(shareEl.hasAttribute('data-o-share--js')).to.be(true);
+		expect(shareEl.hasAttribute('data-labs-o-share--js')).to.be(true);
 	});
 });
 
@@ -36,11 +35,11 @@ describe('links', () => {
 
 	beforeEach(() => {
 		fixtures.insertShareLinks();
-		shareEl = document.querySelector('[data-o-component=o-share]');
+		shareEl = document.querySelector('[data-o-component=labs-o-share]');
 		testShare = new Share(shareEl);
 		spy = newWindowSpy();
 		window.open = spy.func;
-		twitterLinkEl = document.querySelector('.o-share__action--twitter a');
+		twitterLinkEl = document.querySelector('.labs-o-share__action--twitter a');
 		const ev = document.createEvent('Event');
 		ev.initEvent('click', true, true);
 		twitterLinkEl.dispatchEvent(ev);
