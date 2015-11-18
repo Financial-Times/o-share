@@ -1,18 +1,18 @@
-	/**global require,module*/
-	const serviceURL = "https://sharecode.ft.com/generate";
+	/**global require, module, window, CustomEvent, document, HTMLElement, location */
+	const serviceURL = "https://sharecode-test.ft.com";
 	const DomDelegate = require('ftdomdelegate');
 	const qs = require('query-string');
 	const Tooltip = require('./Tooltip');
 
 	const socialUrls = {
-		twitter: "https://twitter.com/intent/tweet?url={{url}}&amp;text={{title}}&amp;related={{relatedTwitterAccounts}}&amp;via=FT",
-		facebook: "http://www.facebook.com/sharer.php?u={{url}}&amp;t={{title}}+|+{{titleExtra}}",
-		linkedin: "http://www.linkedin.com/shareArticle?mini=true&amp;url={{url}}&amp;title={{title}}+|+{{titleExtra}}&amp;summary={{summary}}&amp;source=Financial+Times",
-		googleplus: "https://plus.google.com/share?url={{url}}",
-		reddit: "http://reddit.com/submit?url={{url}}&amp;title={{title}}",
-		pinterest: "http://www.pinterest.com/pin/create/button/?url={{url}}&amp;description={{title}}",
-		url: "{{url}}",
-		email: "mailto:?subject=See this article on FT.com&body={{title}}%0A{{url}}"
+		twitter: 'https://twitter.com/intent/tweet?url={{url}}&amp;text={{title}}&amp;related={{relatedTwitterAccounts}}&amp;via=FT',
+		facebook: 'http://www.facebook.com/sharer.php?u={{url}}&amp;t={{title}}+|+{{titleExtra}}',
+		linkedin: 'http://www.linkedin.com/shareArticle?mini=true&amp;url={{url}}&amp;title={{title}}+|+{{titleExtra}}&amp;summary={{summary}}&amp;source=Financial+Times',
+		googleplus: 'https://plus.google.com/share?url={{url}}',
+		reddit: 'http://reddit.com/submit?url={{url}}&amp;title={{title}}',
+		pinterest: 'http://www.pinterest.com/pin/create/button/?url={{url}}&amp;description={{title}}',
+		url: '{{url}}',
+		email: 'mailto:?subject=See this article on FT.com&body={{title}}%0A{{url}}'
 	};
 
 	const shareUrlPromises = {};
@@ -27,13 +27,13 @@
 
 	function urlParametersAlreadyHaveShareCode(parameters){
 
-		return parameters.indexOf("share_code") > -1 ? true : false;
+		return parameters.indexOf('share_code') > -1 ? true : false;
 
 	}
 
 	function removeExisingShareCodeFromURL(){
 
-		let params = qs.parse(window.location.search);
+		const params = qs.parse(window.location.search);
 		delete params.share_code;
 
 		return qs.stringify(params);
@@ -56,9 +56,6 @@
 		const oShare = this;
 		const openWindows = {};
 		const urlEl = rootEl.querySelector('.labs-o-share__urlbox');
-		let bodyDelegate;
-
-		var selectedAmount = undefined;
 
 		/**
 		  * Helper function to dispatch oShare namespaced events
@@ -87,14 +84,14 @@
 
 		function handleCopied(ev) {
 			ev.stopImmediatePropagation();
-			tooltip("Link copied to clipboard");
+			tooltip('Link copied to clipboard');
 
 			document.body.addEventListener('click', handleCloseToolip);
 			document.body.addEventListener('keypress', handleCloseToolip);
 
 			return dispatchCustomEvent('copy', {
 				share: oShare,
-				action: "url",
+				action: 'url',
 				url: event.target.value
 			});
 		}
@@ -104,7 +101,7 @@
 			urlEl.select();
 
 			if (!document.execCommand('copy')) {
-				tooltip("Copy link to clipboard");
+				tooltip('Copy link to clipboard');
 			}
 		}
 
@@ -122,7 +119,7 @@
 
 				dispatchCustomEvent('open', {
 					share: oShare,
-					action: "social",
+					action: 'social',
 					url: urlEl.href
 				});
 				ev.target.blur();
@@ -173,11 +170,11 @@
 			}
 
 			getRemainingNumberOfTokensForUser()
-				.then(function(amount){
+				.then(amount => {
 					rootEl.querySelectorAll('[data-labs-o-share-credit-count]')[0].textContent = amount;
 				})
-				.catch(function(err){
-					console.error("There was an error trying to obtain the remaining number of sharing tokens for the subscriber", err);
+				.catch(err => {
+					console.error('There was an error trying to obtain the remaining number of sharing tokens for the subscriber', err);
 				})
 			;
 
@@ -200,7 +197,7 @@
 			return getShareUrl()
 				.then(function(data) {
 					if (data.success) {
-						let templateString = socialUrls[socialNetwork];
+						const templateString = socialUrls[socialNetwork];
 						return templateString.replace('{{url}}', data.data.shortUrl)
 							.replace('{{title}}', encodeURIComponent(config.title))
 							.replace('{{titleExtra}}', encodeURIComponent(config.titleExtra))
@@ -208,14 +205,6 @@
 							.replace('{{relatedTwitterAccounts}}', encodeURIComponent(config.relatedTwitterAccounts));
 					}
 				});
-		}
-
-		function handleEscape(evt) {
-			if (evt.keyCode == 27) {
-				if (oShare.tip) {
-					oShare.tip.destroy();
-				}
-			}
 		}
 
 		/**
@@ -228,7 +217,7 @@
 			const descEl = rootEl.querySelector('.labs-o-share__giftdesc--'+giftoption);
 
 			Promise.all(Object.keys(socialUrls).map(function(network) {
-				var socialLinkEl = rootEl.querySelector('.labs-o-share__action--'+network);
+				const socialLinkEl = rootEl.querySelector('.labs-o-share__action--'+network);
 				if (socialLinkEl) {
 					return generateSocialUrl(network).then(function(destUrl) {
 						socialLinkEl.querySelector('a').href = destUrl;
@@ -355,10 +344,10 @@
 			return shareUrlPromises[maxShares];
 		}
 
-		shareUrlPromises[maxShares] = fetch(serviceURL +
-					"?target=" + encodeURIComponent(location.href.split("?")[0]) +
-					"&shareEventId=" + (Date.now() / 1000 | 0) +
-					"&maxShares=" + maxShares
+		shareUrlPromises[maxShares] = fetch(serviceURL + '/generate' +
+					'?target=' + encodeURIComponent(location.href.split('?')[0]) +
+					'&shareEventId=' + (Date.now() / 1000 | 0) +
+					'&maxShares=' + maxShares
 				,{credentials: 'include'})
 			.then(function(response) {
 				return response.text();
@@ -390,11 +379,11 @@
 
 	Share.addShareCodeToUrl = function () {
 		if (urlParametersAlreadyHaveShareCode(window.location.search)) {
-			let otherParameters = removeExisingShareCodeFromURL();
+			const otherParameters = removeExisingShareCodeFromURL();
 			let newURL = window.location.href.split('?')[0];
 
-			if(otherParameters !== ""){
-				newURL += "?" + otherParameters;
+			if (otherParameters !== ''){
+				newURL += '?' + otherParameters;
 			}
 
 			window.history.pushState({}, undefined, newURL);
