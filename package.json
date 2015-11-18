@@ -3,6 +3,9 @@
   "scripts": {
     "test": "./node_modules/karma/bin/karma start karma.conf.js"
   },
+  "dependencies": {
+    "query-string": "^3.0.0"
+  },
   "devDependencies": {
     "babelify": "^6.0.1",
     "debowerify": "^1.2.0",
@@ -12,7 +15,6 @@
     "karma-mocha": "^0.1.10",
     "karma-phantomjs-launcher": "^0.1.4",
     "mocha": "^2.2.1",
-    "phantomjs": "^1.9.7-3",
-    "query-string" : "^3.0.0"
+    "phantomjs": "^1.9.7-3"
   }
 }
