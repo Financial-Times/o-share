@@ -3,9 +3,6 @@
   "scripts": {
     "test": "./node_modules/karma/bin/karma start karma.conf.js"
   },
-  "dependencies": {
-    "query-string": "^3.0.0"
-  },
   "devDependencies": {
     "babelify": "^6.0.1",
     "debowerify": "^1.2.0",
