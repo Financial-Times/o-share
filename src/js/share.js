@@ -367,7 +367,7 @@
 			})
 			.then(res => res.json())
 			.then(function (json) {
-				if (json.status) {
+				if (json.success) {
 					return json.data.tokensAvailable;
 				} else {
 					return 10;
