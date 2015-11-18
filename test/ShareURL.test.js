@@ -11,7 +11,7 @@ describe('share url behaviour', function() {
 
 	beforeEach(function() {
 		fixtures.insertShareLinks();
-		shareEl = document.querySelector('[data-o-component=o-share]');
+		shareEl = document.querySelector('[data-o-component=labs-o-share]');
 		testShare = new Share(shareEl);
 	});
 
@@ -26,7 +26,7 @@ describe('share url behaviour', function() {
 
 		const ev = document.createEvent('Event');
 		ev.initEvent('click', true, true);
-		testShare.rootEl.querySelector('.o-share__btncopy').dispatchEvent(ev);
+		testShare.rootEl.querySelector('.labs-o-share__btncopy').dispatchEvent(ev);
 
 		expect(spy.callCount).to.be(1);
 		expect(spy.calledWith[0][0]).to.be('copy');
@@ -35,8 +35,8 @@ describe('share url behaviour', function() {
 	it('share URL tool - copied notification', function() {
 		const ev = document.createEvent('Event');
 		ev.initEvent('copy', true, true);
-		testShare.rootEl.querySelector('.o-share__urlbox').dispatchEvent(ev);
-		expect(document.querySelector('.o-share-tooltip__text').innerText).to.be('Link copied to clipboard');
+		testShare.rootEl.querySelector('.labs-o-share__urlbox').dispatchEvent(ev);
+		expect(document.querySelector('.labs-o-share-tooltip__text').innerText).to.be('Link copied to clipboard');
 	});
 
 });
