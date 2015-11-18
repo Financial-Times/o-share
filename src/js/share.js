@@ -372,19 +372,21 @@
 
 	function getRemainingNumberOfTokensForUser(){
 
-		fetch(serviceURL + "/remainingamount",
+		return fetch(serviceURL + '/remainingamount',
 			{
 				credentials: 'include'
 			})
 			.then(res => res.json())
-			.then(function(json){
-				if(json['status-success'] === true){
-					return json.remaining_top_up_credits + json.remaining_monthly_credits;
+			.then(function (json) {
+				if (json.status) {
+					return json.data.tokensAvailable;
+				} else {
+					return 10;
 				}
 			})
 		;
 
-	}	
+	}
 
 	Share.addShareCodeToUrl = function () {
 		if (urlParametersAlreadyHaveShareCode(window.location.search)) {
