@@ -1,5 +1,5 @@
 	/**global require, module, window, CustomEvent, document, HTMLElement, location */
-	const serviceURL = "https://sharecode-test.ft.com";
+	const serviceURL = "https://sharecode.ft.com";
 	const DomDelegate = require('ftdomdelegate');
 	const qs = require('query-string');
 	const Tooltip = require('./Tooltip');
