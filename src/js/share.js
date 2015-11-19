@@ -144,7 +144,7 @@
 					cfgEl.value = 5;
 				}
 
-				getShareUrl(cfgEl.value)
+				getShareUrl(cfgEl.value, 2)
 				.then(data => {
 					const shortUrl = data.data.shortUrl;
 					urlEl.value = shortUrl;
@@ -154,7 +154,7 @@
 					cfgEl.value = 5;
 				}
 
-				getShareUrl(cfgEl.value)
+				getShareUrl(cfgEl.value, 2)
 				.then(data => {
 					const shortUrl = data.data.shortUrl;
 					urlEl.value = shortUrl;
@@ -162,7 +162,7 @@
 				});
 			} else if (ev.target.matches('.labs-o-share__giftoption') && ev.target.checked) {
 				cfgEl.disabled = true;
-				getShareUrl(ev.target.value)
+				getShareUrl(ev.target.value, 2)
 				.then(data => {
 					const shortUrl = data.data.shortUrl;
 					urlEl.value = shortUrl;
@@ -330,15 +330,10 @@
 	};
 
 
-	function getShareUrl(shareValue) {
+	function getShareUrl(maxShares, context) {
 
-		let maxShares = 1;
-
-		if (shareValue !== undefined) {
-
-			maxShares = shareValue;
-
-		}
+		maxShares = maxShares || 1;
+		context = context || 0;
 
 		if (shareUrlPromises[maxShares]) {
 			return shareUrlPromises[maxShares];
@@ -347,7 +342,8 @@
 		shareUrlPromises[maxShares] = fetch(serviceURL + '/generate' +
 					'?target=' + encodeURIComponent(location.href.split('?')[0]) +
 					'&shareEventId=' + (Date.now() / 1000 | 0) +
-					'&maxShares=' + maxShares
+					'&maxShares=' + maxShares +
+					'&context=' + context
 				,{credentials: 'include'})
 			.then(function(response) {
 				return response.text();
@@ -392,7 +388,7 @@
 
 		if (tokenTimeout === undefined) {
 			tokenTimeout = setTimeout(function () {
-				getShareUrl(1)
+				getShareUrl(1, 1)
 				.then(function (data) {
 					if (data.success) {
 						const code = data.data.shareCode;
