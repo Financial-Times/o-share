@@ -137,6 +137,8 @@
 			const customAmountRadio = rootEl.querySelector('#labs-o-share-giftoption-cfg');
 
 			if (ev.target == customAmountRadio) {
+				ev.preventDefault();
+				
 				cfgEl.disabled = false;
 				cfgEl.focus();
 
