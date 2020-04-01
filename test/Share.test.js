@@ -2,7 +2,6 @@
 /* global proclaim */
 
 import * as fixtures from './helpers/fixtures';
-
 import Share from './../main';
 
 let testShare;
@@ -108,7 +107,19 @@ describe('data normalisation', () => {
 		new Share(shareEl);
 
 		const twitterLinkElement = document.querySelector('.o-share__icon--twitter');
-		proclaim.match(twitterLinkElement.getAttribute('href'), /url=https?:\/\/localhost:[\d]+\/content\/test/);
+		const twitterHref = decodeURIComponent(twitterLinkElement.getAttribute('href'));
+
+		proclaim.match(twitterHref, /url=https?:\/\/localhost:[\d]+\/content\/test/);
+	});
+
+	it('encodes urls before sharing them', () => {
+		fixtures.insertShareComponent();
+
+		shareEl = document.querySelector('[data-o-component=o-share]');
+		new Share(shareEl);
+
+		const twitterLinkElement = document.querySelector('.o-share__icon--twitter');
+		proclaim.match(twitterLinkElement.getAttribute('href'), /url=https%3A%2F%2F/);
 	});
 });
 

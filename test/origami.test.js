@@ -2,7 +2,6 @@
 /* global proclaim sinon */
 
 import * as fixtures from './helpers/fixtures';
-
 import Share from './../main';
 
 describe("Share", () => {
