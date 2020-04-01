@@ -1,4 +1,5 @@
-/* eslint-env mocha, sinon, proclaim */
+/* eslint-env mocha */
+/* global proclaim sinon */
 
 import * as fixtures from './helpers/fixtures';
 
