@@ -12,7 +12,6 @@
         "withPinterest": true,
         "withLink": true,
         "withMail": true,
-        "withShare": true,
         "isSmall": true
     }
 }

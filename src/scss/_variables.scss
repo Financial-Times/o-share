@@ -10,6 +10,14 @@ $o-share-icon-size: 40px !default;
 /// @type Number
 $o-share-icon-small-size: 28px !default;
 
+/// Border size
+/// @type Number
+$o-share-border-size: 1px !default;
+
+/// Border style
+/// @type Number
+$o-share-border-style: solid !default;
+
 /// Option to change the base of the image service url
 ///
 /// @type String
@@ -25,7 +33,7 @@ $o-share-ft-icons-version: "1" !default;
 
 // Icon names that will use fticons instead of ftsocial
 /// @type Map
-$o-share-ft-icons-names: (mail link share);
+$o-share-ft-icons-names: (mail, link, share);
 
 /// List of accepted social network icons, and the version
 /// @type Map
@@ -41,7 +49,3 @@ $_o-share-colors: (
 	pinterest: #bd081c,
 	whatsapp: #25d366
 );
-
-/// Tooltip background
-/// @type Color
-$_o-share-tooltip-bg: rgba(0, 0, 0, 0.6);
