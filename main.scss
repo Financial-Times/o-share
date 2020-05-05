@@ -27,13 +27,8 @@
 @mixin oShare($opts: (
 	'icons': $_o-share-icons,
 	'sizes': ('small'),
-<<<<<<< HEAD
-  'vertical': true,
-  'inverse': true
-=======
 	'vertical': true,
 	'inverse': true
->>>>>>> 5dcd2d4eb2ad000dec6c9bef896a879c1a6a7d26
 )) {
 	$icons: map-get($opts, 'icons');
 	$vertical-enabled: map-get($opts, 'vertical');
@@ -45,17 +40,6 @@
 		@error 'A global "$system-code" Sass variable must be set to a valid Bizops system code (\e]8;;https://biz-ops.in.ft.com/list/Systems\e\\https://biz-ops.in.ft.com/list/Systems\e]8;;\e\\).';
 	}
 
-<<<<<<< HEAD
-	@include _oShareBase();
-
-	@each $icon in $_o-share-icons {
-		@include _oShareActionIcon($icon);
-	}
-
-	@if index($sizes, 'small') != null {
-		.o-share--small {
-			@include _oShareSize('small');
-=======
 	.o-share {
 		// Include styles for the default theme.
 		@include _oShareTheme($icons: $icons);
@@ -126,18 +110,10 @@
 	@if index($sizes, 'small') != null {
 		.o-share--small {
 			@include _oShareSize('small', $vertical-enabled);
->>>>>>> 5dcd2d4eb2ad000dec6c9bef896a879c1a6a7d26
 		}
 	}
 
 	@if $inverse-enabled {
-<<<<<<< HEAD
-		@include _oShareInverse($icons);
-	}
-
-	@if $vertical-enabled {
-		@include _oShareVertical();
-=======
 		.o-share--inverse {
 			@include _oShareTheme('inverse', $icons);
 		}
@@ -159,7 +135,6 @@
 				overflow-wrap: anywhere;
 			}
 		}
->>>>>>> 5dcd2d4eb2ad000dec6c9bef896a879c1a6a7d26
 	}
 }
 

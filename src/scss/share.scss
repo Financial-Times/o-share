@@ -156,7 +156,7 @@
 					background-image: url($service-url + $query + "&format=svg#{$tint}");
 
 					// Force the background to be black in high-contrast mode
-					@media screen and (-ms-high-contrast: active) {
+					@media screen and (-ms-high-contrast: active) { // stylelint-disable-line max-nesting-depth
 						background-color: oColorsByName('black');
 					}
 				}
