@@ -102,11 +102,7 @@
 
 	.o-share__icon--#{$icon-name}:hover,
 	.o-share__icon--#{$icon-name}:focus {
-		$usecase: if(
-			index($o-share-ft-icons-names, $icon-name),
-			'o-share/ft-icon',
-			'o-share/#{$icon-name}-icon'
-		);
+		$usecase: if(index($o-share-ft-icons-names, $icon-name), 'o-share/ft-icon', 'o-share/#{$icon-name}-icon');
 		border-color: oColorsByUsecase($usecase, 'border');
 		background-color: oColorsByUsecase($usecase, 'background');
 		&:before {
@@ -153,11 +149,7 @@
 			$tint: "&tint=%23#{$hover-color},%23#{$hover-color}";
 
 			.o-share__icon--#{$icon-name} {
-				$usecase: if(
-					index($o-share-ft-icons-names, $icon-name),
-					'o-share/ft-icon',
-					'o-share/#{$icon-name}-icon'
-				);
+				$usecase: if(index($o-share-ft-icons-names, $icon-name), 'o-share/ft-icon', 'o-share/#{$icon-name}-icon');
 				border-color: oColorsByUsecase($usecase, 'border');
 
 				&:before {
