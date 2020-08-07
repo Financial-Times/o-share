@@ -2,6 +2,7 @@
 
 Social media buttons.
 
+- [Usage](#usage)
 - [Overview](#overview)
 - [Markup](#markup)
 - [Sass](#sass)
@@ -9,6 +10,10 @@ Social media buttons.
 - [Migration Guide](#migration-guide)
 - [Contact](#contact)
 - [Licence](#licence)
+
+## Usage
+
+Check out [how to include Origami components in your project](https://origami.ft.com/docs/components/#including-origami-components-in-your-project) to get started with `o-share`.
 
 ## Overview
 
