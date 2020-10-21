@@ -3,7 +3,7 @@
 	"keywords": [ "share", "link", "social", "facebook", "twitter", "linkedin", "whatsapp", "email" ],
 	"origamiType": "module",
 	"origamiCategory": "components",
-	"origamiVersion": 1,
+	"origamiVersion": 2,
 	"support": "https://github.com/Financial-Times/o-share/issues",
 	"supportContact": {
 		"email": "origami.support@ft.com",

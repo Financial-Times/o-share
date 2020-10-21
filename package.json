@@ -1,14 +1,28 @@
 {
-	"private": true,
-	"name": "o-share",
-	"devDependencies": {
-		"eslint": "^7.8.1",
-		"eslint-config-origami-component": "^2.1.0",
-		"origami-ci-tools": "^2.0.2",
-		"remark": "^12.0.1",
-		"remark-lint": "^7.0.1",
-		"remark-preset-lint-origami-component": "^1.1.3",
-		"stylelint": "^13.7.0",
-		"stylelint-config-origami-component": "^1.0.4"
-	}
+    "name": "o-share",
+    "devDependencies": {
+        "eslint": "^7.8.1",
+        "eslint-config-origami-component": "^2.1.0",
+        "origami-ci-tools": "^2.0.2",
+        "remark": "^12.0.1",
+        "remark-lint": "^7.0.1",
+        "remark-preset-lint-origami-component": "^1.1.3",
+        "stylelint": "^13.7.0",
+        "stylelint-config-origami-component": "^1.0.4"
+    },
+    "main": "main.js",
+    "peerDependencies": {
+        "@financial-times/o-brand": "^3.2.9",
+        "@financial-times/o-colors": "^5.0.0",
+        "@financial-times/o-grid": "^5.0.0",
+        "@financial-times/o-normalise": "^2.0.0",
+        "@financial-times/o-spacing": "^2.0.1",
+        "@financial-times/o-typography": "^6.3.3",
+        "ftdomdelegate": "^4.0.0"
+    },
+    "description": "Provides styling for social media sharing links",
+    "publishConfig": {
+        "registry": "http://localhost:4873"
+    },
+    "version": "8.0.0-0"
 }
