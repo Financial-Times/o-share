@@ -12,13 +12,13 @@
     },
     "main": "main.js",
     "peerDependencies": {
-        "@financial-times/o-brand": "^3.2.9",
-        "@financial-times/o-colors": "^5.0.0",
-        "@financial-times/o-grid": "^5.0.0",
-        "@financial-times/o-normalise": "^2.0.0",
-        "@financial-times/o-spacing": "^2.0.1",
-        "@financial-times/o-typography": "^6.3.3",
-        "ftdomdelegate": "^4.0.0"
+        "@financial-times/o-brand": "^100.0.0-3",
+        "@financial-times/o-colors": "^100.0.0-3",
+        "@financial-times/o-grid": "^100.0.0-3",
+        "@financial-times/o-normalise": "^100.0.0-3",
+        "@financial-times/o-spacing": "^100.0.0-3",
+        "@financial-times/o-typography": "^100.0.0-3",
+        "ftdomdelegate": "^100.0.0-3"
     },
     "description": "Provides styling for social media sharing links",
     "publishConfig": {
