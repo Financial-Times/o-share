@@ -141,7 +141,7 @@ The `share` icon is made available by default for custom share features as shown
 ## Sass
 
 ```scss
-@import 'o-share/main';
+@import '@financial-times/o-share/main';
 ```
 
 The `oShare` mixin is used to output the `o-share` styles.
