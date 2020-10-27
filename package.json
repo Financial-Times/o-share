@@ -1,6 +1,6 @@
 {
     "name": "@financial-times/o-share",
-    "version": "100.0.0-7",
+    "version": "100.0.0-8",
     "description": "Provides styling for social media sharing links",
     "license": "MIT",
     "type": "module",
@@ -22,13 +22,13 @@
         "stylelint-config-origami-component": "^1.0.4"
     },
     "peerDependencies": {
-        "@financial-times/o-brand": "^100.0.0-7",
-        "@financial-times/o-colors": "^100.0.0-7",
-        "@financial-times/o-grid": "^100.0.0-7",
-        "@financial-times/o-normalise": "^100.0.0-7",
-        "@financial-times/o-spacing": "^100.0.0-7",
-        "@financial-times/o-typography": "^100.0.0-7",
-        "ftdomdelegate": "^100.0.0-7"
+        "@financial-times/o-brand": "^100.0.0-8",
+        "@financial-times/o-colors": "^100.0.0-8",
+        "@financial-times/o-grid": "^100.0.0-8",
+        "@financial-times/o-normalise": "^100.0.0-8",
+        "@financial-times/o-spacing": "^100.0.0-8",
+        "@financial-times/o-typography": "^100.0.0-8",
+        "ftdomdelegate": "^100.0.0-8"
     },
     "publishConfig": {
         "registry": "http://localhost:4873"
