@@ -1,5 +1,8 @@
 {
     "name": "@financial-times/o-share",
+    "version": "100.0.0-7",
+    "description": "Provides styling for social media sharing links",
+    "browser": "main.js",
     "devDependencies": {
         "eslint": "^7.8.1",
         "eslint-config-origami-component": "^2.1.0",
@@ -10,7 +13,6 @@
         "stylelint": "^13.7.0",
         "stylelint-config-origami-component": "^1.0.4"
     },
-    "browser": "main.js",
     "peerDependencies": {
         "@financial-times/o-brand": "^100.0.0-7",
         "@financial-times/o-colors": "^100.0.0-7",
@@ -20,9 +22,7 @@
         "@financial-times/o-typography": "^100.0.0-7",
         "ftdomdelegate": "^100.0.0-7"
     },
-    "description": "Provides styling for social media sharing links",
     "publishConfig": {
         "registry": "http://localhost:4873"
-    },
-    "version": "100.0.0-7"
+    }
 }
