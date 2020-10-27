@@ -1,36 +1,46 @@
 {
-    "name": "@financial-times/o-share",
-    "version": "100.0.0-8",
-    "description": "Provides styling for social media sharing links",
-    "license": "MIT",
-    "type": "module",
-    "exports": {
-        ".": {
-            "browser": "./main.js"
-        }
-    },
-    "browser": "./main.js",
-    "types": "types",
-    "devDependencies": {
-        "eslint": "^7.8.1",
-        "eslint-config-origami-component": "^2.1.0",
-        "origami-ci-tools": "^2.0.2",
-        "remark": "^12.0.1",
-        "remark-lint": "^7.0.1",
-        "remark-preset-lint-origami-component": "^1.1.3",
-        "stylelint": "^13.7.0",
-        "stylelint-config-origami-component": "^1.0.4"
-    },
-    "peerDependencies": {
-        "@financial-times/o-brand": "^100.0.0-9",
-        "@financial-times/o-colors": "^100.0.0-9",
-        "@financial-times/o-grid": "^100.0.0-9",
-        "@financial-times/o-normalise": "^100.0.0-9",
-        "@financial-times/o-spacing": "^100.0.0-9",
-        "@financial-times/o-typography": "^100.0.0-9",
-        "ftdomdelegate": "^100.0.0-9"
-    },
-    "publishConfig": {
-        "registry": "https://origami-npm-registry-prototype.herokuapp.com"
+  "name": "@financial-times/o-share",
+  "version": "100.0.0-10",
+  "description": "Provides styling for social media sharing links",
+  "keywords": [],
+  "homepage": "https://github.com/Financial-Times/o-share#readme",
+  "bugs": {
+    "url": "https://github.com/Financial-Times/o-share/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Financial-Times/o-share.git"
+  },
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "exports": {
+    ".": {
+      "browser": "./main.js"
     }
+  },
+  "browser": "./main.js",
+  "types": "types",
+  "devDependencies": {
+    "eslint": "^7.8.1",
+    "eslint-config-origami-component": "^2.1.0",
+    "origami-ci-tools": "^2.0.2",
+    "remark": "^12.0.1",
+    "remark-lint": "^7.0.1",
+    "remark-preset-lint-origami-component": "^1.1.3",
+    "stylelint": "^13.7.0",
+    "stylelint-config-origami-component": "^1.0.4"
+  },
+  "peerDependencies": {
+    "@financial-times/o-brand": "^100.0.0-10",
+    "@financial-times/o-colors": "^100.0.0-10",
+    "@financial-times/o-grid": "^100.0.0-10",
+    "@financial-times/o-normalise": "^100.0.0-10",
+    "@financial-times/o-spacing": "^100.0.0-10",
+    "@financial-times/o-typography": "^100.0.0-10",
+    "ftdomdelegate": "^100.0.0-10"
+  },
+  "publishConfig": {
+    "registry": "https://origami-npm-registry-prototype.herokuapp.com"
+  }
 }
